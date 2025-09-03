@@ -68,6 +68,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         fill: true,
         tension: 0.4,
         borderWidth: 4,
+        pointRadius: 0,
       },
       {
         label: getTranslation('totalAssets', language),
@@ -77,6 +78,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         fill: false,
         tension: 0.4,
         borderWidth: 4,
+        pointRadius: 0,
       },
       {
         label: getTranslation('totalLiabilities', language),
@@ -86,6 +88,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         fill: false,
         tension: 0.4,
         borderWidth: 4,
+        pointRadius: 0,
       }
     ],
   };
