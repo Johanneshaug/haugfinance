@@ -50,8 +50,8 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
 
   const data = {
     labels: projections.map((p, index) => {
-      const year = currentYear + Math.floor(p.year);
-      if (index === 0 || year !== (currentYear + Math.floor(projections[index - 1].year))) {
+      const year = p.date.getFullYear();
+      if (index === 0 || year !== projections[index - 1].date.getFullYear()) {
         return `${year}`;
       }
       return '';
@@ -150,13 +150,8 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
                  return language === 'de' ? 'Heute' : 'Today';
                }
                
-                const projectionDate = new Date(currentDate.getFullYear() + projection.year * 365.25 * 24 * 60 * 60 * 1000); // Approximate date
-                const month = projectionDate.getMonth();
-                const day = projectionDate.getDate();
-                const year = projectionDate.getFullYear();
-
-                const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-                return projectionDate.toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', options);
+                const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                return projection.date.toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', options);
               }
             }
             return '';
