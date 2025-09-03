@@ -49,7 +49,13 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
   const currentDate = new Date();
 
   const data = {
-    labels: projections.map(p => `${currentYear + Math.floor(p.year)}`),
+    labels: projections.map((p, index) => {
+      const year = currentYear + Math.floor(p.year);
+      if (index === 0 || year !== (currentYear + Math.floor(projections[index - 1].year))) {
+        return `${year}`;
+      }
+      return '';
+    }),
     datasets: [
       {
         label: getTranslation('currentNetWorth', language),
@@ -144,8 +150,13 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
                  return language === 'de' ? 'Heute' : 'Today';
                }
                
-                const year = currentYear + Math.floor(projection.year);
-                return `${year}`;
+                const projectionDate = new Date(currentDate.getFullYear() + projection.year * 365.25 * 24 * 60 * 60 * 1000); // Approximate date
+                const month = projectionDate.getMonth();
+                const day = projectionDate.getDate();
+                const year = projectionDate.getFullYear();
+
+                const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+                return projectionDate.toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', options);
               }
             }
             return '';
