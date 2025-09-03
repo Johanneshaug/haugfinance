@@ -49,16 +49,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
   const currentDate = new Date();
 
   const data = {
-    labels: projections.map(p => {
-      const year = currentYear + Math.floor(p.year);
-      const quarter = Math.round((p.year % 1) * 4);
-      // Only show year labels, hide quarter labels
-      if (quarter === 0) {
-        return `${year}`;
-      } else {
-        return '';
-      }
-    }),
+    labels: projections.map(p => `${currentYear + Math.floor(p.year)}`),
     datasets: [
       {
         label: getTranslation('currentNetWorth', language),
@@ -154,12 +145,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
                }
                
                 const year = currentYear + Math.floor(projection.year);
-                const quarter = Math.round((projection.year % 1) * 4);
-                if (quarter === 0) {
-                  return `${year}`;
-                } else {
-                  return `${year} Q${quarter}`;
-                }
+                return `${year}`;
               }
             }
             return '';
@@ -246,15 +232,7 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         <Line data={data} options={options} />
       </div>
       
-      {/* Quarter explanation */}
-      <div className="mt-8 text-center">
-        <div className={`text-sm ${darkMode ? 'text-slate-500' : 'text-slate-400'} space-y-2 font-medium`}>
-          <div>1. Quartal – 01. Januar</div>
-          <div>2. Quartal – 01. April</div>
-          <div>3. Quartal – 01. Juli</div>
-          <div>4. Quartal – 01. Oktober</div>
-        </div>
-      </div>
+      {/* Quarter explanation removed */}
     </div>
   );
 }
