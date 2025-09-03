@@ -78,12 +78,13 @@ export async function fetchStockPrice(symbol: string, targetCurrency: string = '
 
   try {
     const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    if (!SUPABASE_ANON_KEY) {
-      console.error('VITE_SUPABASE_ANON_KEY is not set in environment variables.');
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+    if (!SUPABASE_ANON_KEY || !SUPABASE_URL) {
+      console.error('VITE_SUPABASE_ANON_KEY or VITE_SUPABASE_URL is not set in environment variables.');
       return null;
     }
 
-    const response = await fetch(`/functions/v1/stock-price?symbol=${symbol}&currency=${targetCurrency}`, {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/stock-price?symbol=${symbol}&currency=${targetCurrency}`, {
       headers: {
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
