@@ -3,6 +3,7 @@ import { X, TrendingUp, RefreshCw, Plus, Trash2 } from 'lucide-react';
 import { Asset, Liability, Income, Expense } from '../types/financial';
 import { fetchStockPrice, searchStockSymbols } from '../utils/stockApi';
 import { getTranslation } from '../utils/languages';
+import { DistributionFrequency } from '../types/financial'; // Import DistributionFrequency
 
 interface EditModalProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
   const [localMinimumPayment, setLocalMinimumPayment] = useState<string>('');
   const [localInterestRate, setLocalInterestRate] = useState<string>('');
   const [localMonthlyAmount, setLocalMonthlyAmount] = useState<string>(''); // For income/expense
+  const [localDistributionFrequency, setLocalDistributionFrequency] = useState<DistributionFrequency>('yearly');
 
   useEffect(() => {
     if (item) {
@@ -48,6 +50,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
           setLocalValue(''); // Clear if it's a stock asset, as it's read-only
         }
         setLocalGrowthRate(asset.growthRate != null ? asset.growthRate.toString().replace('.', ',') : '');
+        setLocalDistributionFrequency(asset.distributionFrequency || 'yearly');
       } else if (item.type === 'liability') {
         const liability = item as Liability;
         setLocalBalance(liability.balance != null ? liability.balance.toString().replace('.', ',') : '');
@@ -55,6 +58,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
         setLocalInterestRate(liability.interestRate != null ? liability.interestRate.toString().replace('.', ',') : '');
         setLocalGrowthRate(''); // Clear growth rate for liabilities
         setLocalValue(''); // Clear value for liabilities
+        setLocalDistributionFrequency('yearly'); // Default for non-asset types or if not specified
       } else if (item.type === 'income') {
         const income = item as Income;
         setLocalMonthlyAmount(income.monthlyAmount != null ? income.monthlyAmount.toString().replace('.', ',') : '');
@@ -63,6 +67,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
         setLocalMinimumPayment(''); // Clear for other types
         setLocalInterestRate(''); // Clear for other types
         setLocalValue(''); // Clear for other types
+        setLocalDistributionFrequency('yearly');
       } else if (item.type === 'expense') {
         const expense = item as Expense;
         setLocalMonthlyAmount(expense.monthlyAmount != null ? expense.monthlyAmount.toString().replace('.', ',') : '');
@@ -71,6 +76,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
         setLocalMinimumPayment(''); // Clear for other types
         setLocalInterestRate(''); // Clear for other types
         setLocalValue(''); // Clear for other types
+        setLocalDistributionFrequency('yearly');
       }
     }
   }, [item]);
@@ -104,7 +110,8 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
       }));
 
       editedItem.stockGrowthType = stockGrowthType;
-      // editedItem.stockTargets = stockTargets; // This is already handled by the map above
+      editedItem.stockTargets = stockTargets; // This is already handled by the map above
+      editedItem.distributionFrequency = localDistributionFrequency; // Save distribution frequency
     } else if (editedItem.type === 'liability') {
       const balanceParsed = parseFloat(localBalance.replace(',', '.'));
       editedItem.balance = isNaN(balanceParsed) ? 0 : balanceParsed;
@@ -448,7 +455,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                 {stockGrowthType === 'rate' && (
                   <div>
                     <label className={`block text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                      {getTranslation('annualGrowthRate', language)}
+                      {getTranslation('annualGrowthRate', language)} (p.a.)
                     </label>
                     <input
                       type="text"
@@ -518,6 +525,23 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                 )}
               </div>
             )}
+            {/* Changed from editedItem.type !== 'stock' to always show for assets */}
+            {type === 'asset' && (
+              <div>
+                <label className={`block text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                  {getTranslation('distributionFrequency', language)}
+                </label>
+                <select
+                  value={localDistributionFrequency}
+                  onChange={(e) => setLocalDistributionFrequency(e.target.value as DistributionFrequency)}
+                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                >
+                  <option value="monthly">{getTranslation('monthly', language)}</option>
+                  <option value="quarterly">{getTranslation('quarterly', language)}</option>
+                  <option value="yearly">{getTranslation('yearly', language)}</option>
+                </select>
+              </div>
+            )}
           </>
         );
 
@@ -583,7 +607,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
 
             <div>
               <label className={`block text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                {getTranslation('interestRate', language)}
+                {getTranslation('interestRate', language)} (p.a.)
               </label>
               <input
                 type="text"

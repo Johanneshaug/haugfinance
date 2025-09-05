@@ -7,7 +7,7 @@ import { EditModal } from './components/EditModal';
 import { ProjectionChart } from './components/ProjectionChart';
 import { SummaryCards } from './components/SummaryCards';
 import { SettingsPanel } from './components/SettingsPanel';
-import { FinancialData, Asset, Liability, Income, Expense } from './types/financial';
+import { FinancialData, Asset, Liability, Income, Expense, DistributionFrequency } from './types/financial';
 import { projectNetWorth } from './utils/calculations';
 import { getTranslation } from './utils/languages';
 import { updateExchangeRates } from './utils/currencies';
@@ -41,7 +41,7 @@ function App() {
     investmentPercentage: 0,
     investmentType: 'rate',
     investmentRate: 7,
-    investmentStockSymbol: ''
+    investmentStockSymbol: '',
   });
 
   // New function for inline update of stock targets
@@ -184,13 +184,15 @@ function App() {
             investmentPercentage: data.investmentPercentage || 0,
             investmentType: data.investmentType || 'rate',
             investmentRate: data.investmentRate || 7,
-            investmentStockSymbol: data.investmentStockSymbol || ''
+            investmentStockSymbol: data.investmentStockSymbol || '',
           }));
           console.log("SetupWizard completed, financialData set:", data);
           setShowSetupWizard(false);
         }}
         darkMode={darkMode}
         currency={selectedCurrency}
+        language={selectedLanguage} // Pass language to SetupWizard
+        showBetaFeatures={showBetaFeatures}
       />
     );
   }
@@ -392,6 +394,13 @@ function App() {
     }));
   };
 
+  const handleUpdateAssetDistributionFrequency = (assetId: string, frequency: DistributionFrequency) => {
+    setFinancialData(prev => ({
+      ...prev,
+      assets: prev.assets.map(asset => asset.id === assetId ? { ...asset, distributionFrequency: frequency } : asset)
+    }));
+  };
+
   return (
     <div className={`min-h-screen transition-all duration-700 ${
       darkMode 
@@ -481,6 +490,8 @@ function App() {
           onUpdateAssetStockTarget={handleUpdateAssetStockTarget} // Pass the new handler
           onUpdateAssetGrowthRate={handleUpdateAssetGrowthRate} // Pass new handler
           onUpdateAssetStockGrowthType={handleUpdateAssetStockGrowthType} // Pass new handler
+          showBetaFeatures={showBetaFeatures}
+          onUpdateAssetDistributionFrequency={handleUpdateAssetDistributionFrequency}
         />
         {/* Summary Cards - After financial overview */}
         <div className="mt-10">

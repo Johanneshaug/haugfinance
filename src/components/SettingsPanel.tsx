@@ -145,6 +145,7 @@ export function SettingsPanel({ isOpen, onClose, selectedCurrency, onCurrencyCha
               ))}
             </div>
           </div>
+
         </div>
 
         <div className={`mt-8 pt-6 border-t ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}>

@@ -84,6 +84,10 @@ export interface Translations {
   language: string;
   saveSettings: string;
   betaFeatures: string; // New translation key
+  distributionFrequency: string; // New translation key
+  monthly: string; // New translation key
+  quarterly: string; // New translation key
+  yearly: string; // New translation key
   
   // Projection
   projectFor: string;
@@ -158,11 +162,11 @@ export const translations: Record<string, Translations> = {
     stockSymbol: 'Stock Symbol',
     numberOfShares: 'Number of Shares',
     updateStockPrice: 'Update Stock Price',
-    annualGrowthRate: 'Annual Growth Rate (%)',
+    annualGrowthRate: 'Annual Growth Rate (% p.a.)',
     debtName: 'Debt Name',
     currentBalance: 'Current Balance',
     monthlyPayment: 'Monthly Payment',
-    interestRate: 'Interest Rate (%)',
+    interestRate: 'Interest Rate (% p.a.)',
     incomeSource: 'Income Source',
     monthlyAmount: 'Monthly Amount',
     expenseCategory: 'Expense Category',
@@ -178,6 +182,10 @@ export const translations: Record<string, Translations> = {
     language: 'Language',
     saveSettings: 'Save Settings',
     betaFeatures: 'Beta Features', // New translation
+    distributionFrequency: 'Distribution Frequency',
+    monthly: 'Monthly',
+    quarterly: 'Quarterly',
+    yearly: 'Yearly',
     
     // Projection
     projectFor: 'Project for:',
@@ -251,11 +259,11 @@ export const translations: Record<string, Translations> = {
     stockSymbol: 'Aktiensymbol',
     numberOfShares: 'Anzahl Aktien',
     updateStockPrice: 'Aktienkurs aktualisieren',
-    annualGrowthRate: 'Jährliche Wachstumsrate (%)',
+    annualGrowthRate: 'Jährliche Wachstumsrate (% p.a.)',
     debtName: 'Schuldname',
     currentBalance: 'Aktueller Saldo',
     monthlyPayment: 'Monatliche Zahlung',
-    interestRate: 'Zinssatz (%)',
+    interestRate: 'Zinssatz (% p.a.)',
     incomeSource: 'Einkommensquelle',
     monthlyAmount: 'Monatlicher Betrag',
     expenseCategory: 'Ausgabenkategorie',
@@ -271,6 +279,10 @@ export const translations: Record<string, Translations> = {
     language: 'Sprache',
     saveSettings: 'Einstellungen speichern',
     betaFeatures: 'Beta-Features', // New translation
+    distributionFrequency: 'Ausschüttungshäufigkeit',
+    monthly: 'Monatlich',
+    quarterly: 'Quartalsweise',
+    yearly: 'Jährlich',
     
     // Projection
     projectFor: 'Projektion für:',

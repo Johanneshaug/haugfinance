@@ -9,6 +9,7 @@ export interface Asset {
   stockGrowthType?: 'rate' | 'targets'; // Growth calculation method for ALL assets
   stockTargets?: Array<{ date: string; expectedPrice: number }>; // Target dates with expected values
   useEstimation?: boolean; // Add this line
+  distributionFrequency?: DistributionFrequency; // Added this line for per-asset setting
 }
 
 export interface Liability {
@@ -37,19 +38,23 @@ export interface Expense {
   growthRate: number; // Annual percentage (inflation)
 }
 
+export type DistributionFrequency = 'monthly' | 'quarterly' | 'yearly';
+
 export interface FinancialData {
   assets: Asset[];
   liabilities: Liability[];
   income: Income[];
   expenses: Expense[];
-  investmentPercentage?: number; // Percentage of net income to invest monthly
-  investmentType?: 'rate' | 'stock'; // Type of investment
-  investmentRate?: number; // Annual interest rate for rate-based investment
-  investmentStockSymbol?: string; // Stock symbol for stock-based investment
+  investmentPercentage: number;
+  investmentType?: 'stock' | 'cash' | 'rate';
+  investmentRate?: number;
+  investmentStockSymbol?: string;
+  yearsToProject?: number;
 }
 
 export interface ProjectionResult {
   year: number;
+  date: Date;
   totalAssets: number;
   totalLiabilities: number;
   netWorth: number;

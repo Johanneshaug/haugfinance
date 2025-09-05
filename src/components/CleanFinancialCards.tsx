@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus, Edit3, Trash2, TrendingUp, Percent, BarChart3, ChevronDown, ChevronUp } from 'lucide-react';
-import { FinancialData, Asset, Liability, Income, Expense } from '../types/financial';
+import { FinancialData, Asset, Liability, Income, Expense, DistributionFrequency } from '../types/financial';
 import { formatCurrency } from '../utils/currencies';
 import { getTranslation } from '../utils/languages';
 import { searchStockSymbols, getStockNameBySymbol } from '../utils/stockApi';
@@ -21,6 +21,7 @@ interface CleanFinancialCardsProps {
   onUpdateAssetGrowthRate: (assetId: string, newGrowthRate: number) => void; // New prop
   onUpdateAssetStockGrowthType: (assetId: string, newStockGrowthType: 'rate' | 'targets') => void; // New prop
   showBetaFeatures: boolean; // New prop
+  onUpdateAssetDistributionFrequency: (assetId: string, frequency: DistributionFrequency) => void; // New prop
 }
 
 export default function CleanFinancialCards({
@@ -39,6 +40,7 @@ export default function CleanFinancialCards({
   onUpdateAssetGrowthRate, // Destructure new prop
   onUpdateAssetStockGrowthType, // Destructure new prop
   showBetaFeatures, // Destructure new prop
+  onUpdateAssetDistributionFrequency, // Destructure new prop
 }: CleanFinancialCardsProps) {
   const [stockSuggestions, setStockSuggestions] = React.useState<Array<{ symbol: string; name: string }>>([]);
   const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -67,25 +69,21 @@ export default function CleanFinancialCards({
     onEditItem(updated, 'asset');
   };
 
+  // Check if permanent bank account exists in data
+  const existingBankAccount = data.assets.find(a => a.id === 'permanent-bank-account');
+
   // Create permanent bank account (always first)
   const permanentBankAccount = {
     id: 'permanent-bank-account',
-    name: language === 'de' ? 'Bankkonto' : 'Bank Account',
-    value: 0,
-    growthRate: 0,
+    name: existingBankAccount ? existingBankAccount.name : (language === 'de' ? 'Bankkonto' : 'Bank Account'),
+    value: existingBankAccount ? existingBankAccount.value : 0,
+    growthRate: existingBankAccount ? existingBankAccount.growthRate : 0,
     type: 'cash' as const,
     itemType: 'asset' as const,
     colorClass: 'text-emerald-600',
-    isPermanent: true
+    isPermanent: true,
+    distributionFrequency: existingBankAccount?.distributionFrequency || 'yearly' as DistributionFrequency, // Default or existing for bank account
   };
-
-  // Check if permanent bank account exists in data and update values
-  const existingBankAccount = data.assets.find(a => a.id === 'permanent-bank-account');
-  if (existingBankAccount) {
-    permanentBankAccount.value = existingBankAccount.value;
-    permanentBankAccount.name = existingBankAccount.name;
-    permanentBankAccount.growthRate = existingBankAccount.growthRate;
-  }
 
   // Combine all items into a single list with bank account first
   const allItems = [
@@ -189,10 +187,19 @@ export default function CleanFinancialCards({
     const [localGrowthRate, setLocalGrowthRate] = React.useState<string>(
       (item as Asset).growthRate != null ? (item as Asset).growthRate.toString().replace('.', ',') : ''
     );
+    const [localDistributionFrequency, setLocalDistributionFrequency] = React.useState<DistributionFrequency>(
+      (item as Asset).distributionFrequency || 'yearly'
+    );
 
     React.useEffect(() => {
       if (type === 'asset' && (item as Asset).growthRate != null) {
         setLocalGrowthRate((item as Asset).growthRate.toString().replace('.', ','));
+      }
+    }, [item, type]);
+
+    React.useEffect(() => {
+      if (type === 'asset' && (item as Asset).distributionFrequency) {
+        setLocalDistributionFrequency((item as Asset).distributionFrequency!);
       }
     }, [item, type]);
 
@@ -231,7 +238,7 @@ export default function CleanFinancialCards({
             : `${asset.growthRate}% growth`;
         case 'liability':
           const liability = item as Liability;
-          return `${formatCurrency(liability.minimumPayment, currency)}/month • ${liability.interestRate}% APR`;
+          return `${formatCurrency(liability.minimumPayment, currency)}/month • ${liability.interestRate}% p.a.`;
         case 'income':
           const income = item as Income;
           if (income.hasDateRange && (income.startDate || income.endDate)) {
@@ -270,7 +277,7 @@ export default function CleanFinancialCards({
 
             {(asset.stockGrowthType || 'rate') === 'rate' && (
               <div>
-                <label className={`text-[11px] font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Jährliche Wachstumsrate (%)</label>
+                <label className={`text-[11px] font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Jährliche Wachstumsrate (% p.a.)</label>
                 <input
                   type="text"
                   value={localGrowthRate}
@@ -296,7 +303,7 @@ export default function CleanFinancialCards({
                     <input
                       type="checkbox"
                       checked={asset.useEstimation || false}
-                      onChange={(e) => onUpdateAssetUseEstimation(asset.id, e.target.checked)}
+                      onChange={(e) => updateAssetInline(asset.id, { useEstimation: e.target.checked })}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Preise zwischen jetzt und Zieldaten schätzen</span>
@@ -382,6 +389,25 @@ export default function CleanFinancialCards({
             </div>
           </div>
         </div>
+        {type === 'asset' && ((item as Asset).type === 'cash' || (item as Asset).type === 'investment') && (
+          <div className="mt-2">
+            <label className={`block text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>
+              {getTranslation('distributionFrequency', language)}
+            </label>
+            <select
+              value={localDistributionFrequency}
+              onChange={(e) => {
+                setLocalDistributionFrequency(e.target.value as DistributionFrequency);
+                onUpdateAssetDistributionFrequency(item.id, e.target.value as DistributionFrequency);
+              }}
+              className={`w-full px-2 py-1 text-xs border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-lg`}
+            >
+              <option value="monthly">{getTranslation('monthly', language)}</option>
+              <option value="quarterly">{getTranslation('quarterly', language)}</option>
+              <option value="yearly">{getTranslation('yearly', language)}</option>
+            </select>
+          </div>
+        )}
         {renderStockGrowthControls()}
       </div>
     );
@@ -546,7 +572,7 @@ export default function CleanFinancialCards({
                 {data.investmentType === 'rate' && (
                   <div className="flex items-center space-x-3">
                     <label className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                      Jährlicher Zinssatz:
+                      Jährlicher Zinssatz (p.a.):
                     </label>
                     <input
                       type="text"
@@ -604,7 +630,7 @@ export default function CleanFinancialCards({
             <div className={`mt-2 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} space-y-1`}>
               <div>💼 Investment: {formatCurrency(monthlyNet * (data.investmentPercentage || 0) / 100, currency)}/Monat 
                 {data.investmentType === 'rate' 
-                  ? ` (${data.investmentRate || 7}% Zinsen)` 
+                  ? ` (${data.investmentRate || 7}% Zinsen p.a.)` 
                   : data.investmentStockSymbol 
                     ? ` (${getStockNameBySymbol(data.investmentStockSymbol) || data.investmentStockSymbol} Aktien)` 
                     : ' (Aktie wählen)'

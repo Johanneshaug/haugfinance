@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, TrendingUp, X, ArrowRight, ArrowLeft, Percent, BarChart3 } from 'lucide-react';
-import { Asset, Liability, Income, Expense, FinancialData } from '../types/financial';
+import { Plus, Trash2, ArrowRight, ArrowLeft, Percent, BarChart3 } from 'lucide-react';
+import { Asset, Liability, Income, Expense, FinancialData, DistributionFrequency } from '../types/financial';
 import { searchStockSymbols, fetchStockPrice, getStockNameBySymbol } from '../utils/stockApi';
 import { formatCurrency } from '../utils/currencies';
+import { getTranslation } from '../utils/languages';
 
 interface SetupWizardProps {
   onComplete: (data: FinancialData) => void;
   darkMode: boolean;
   currency: string;
+  language: string; // Add language prop
   showBetaFeatures: boolean; // New prop
 }
 
-export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }: SetupWizardProps) {
+export function SetupWizard({ onComplete, darkMode, currency, language, showBetaFeatures }: SetupWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [assets, setAssets] = useState<Asset[]>([]);
   const [liabilities, setLiabilities] = useState<Liability[]>([]);
@@ -30,7 +32,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
   const [showInvestmentSuggestions, setShowInvestmentSuggestions] = useState(false);
   const [investmentStockGrowthType, setInvestmentStockGrowthType] = useState<'rate' | 'targets'>('rate');
   const [investmentStockTargets, setInvestmentStockTargets] = useState<Array<{ date: string; expectedPrice: number }>>([]);
-  const symbolChangeTimeout = React.useRef<NodeJS.Timeout | null>(null);
+  const symbolChangeTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const sanitizeDecimalInput = (input: string): string => {
     if (!input) return '';
     let s = input.replace(/[^0-9.,]/g, '');
@@ -225,7 +227,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
       stockSymbol: '',
       quantity: 0,
       stockGrowthType: 'rate', // Explicitly set default growth type
-      includeGrowthRate: false,
+      distributionFrequency: 'yearly',
     };
     setAssets([...assets, newAsset]);
   };
@@ -330,7 +332,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
         investmentPercentage,
         investmentType,
         investmentRate,
-        investmentStockSymbol
+        investmentStockSymbol,
       });
     }
   };
@@ -383,6 +385,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                     </div>
                     
                     {asset.id === 'permanent-bank-account' ? (
+                      <>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
@@ -436,6 +439,21 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                           />
                         </div>
                       </div>
+                      <div>
+                        <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                          {getTranslation('distributionFrequency', language)}
+                        </label>
+                        <select
+                          value={asset.distributionFrequency || 'yearly'}
+                          onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                        >
+                          <option value="monthly">{getTranslation('monthly', language)}</option>
+                          <option value="quarterly">{getTranslation('quarterly', language)}</option>
+                          <option value="yearly">{getTranslation('yearly', language)}</option>
+                        </select>
+                      </div>
+                      </>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -495,7 +513,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                             {asset.type === 'investment' && (
                               <div className="col-span-2">
                                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                                  Jährliche Wachstumsrate (%)
+                                  Jährliche Wachstumsrate (% p.a.)
                                 </label>
                                 <input
                                   type="text"
@@ -512,6 +530,20 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                                 />
                               </div>
                             )}
+                                                           <div>
+                                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                                   {getTranslation('distributionFrequency', language)}
+                                 </label>
+                                 <select
+                                   value={asset.distributionFrequency || 'yearly'} // Default to yearly if not set
+                                   onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
+                                   className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                 >
+                                   <option value="monthly">{getTranslation('monthly', language)}</option>
+                                   <option value="quarterly">{getTranslation('quarterly', language)}</option>
+                                   <option value="yearly">{getTranslation('yearly', language)}</option>
+                                 </select>
+                               </div>
                           </>
                         )}
 
@@ -583,6 +615,23 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                             {asset.type === 'stock' && (
                               <div>
                                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                                  {getTranslation('distributionFrequency', language)}
+                                </label>
+                                <select
+                                  value={asset.distributionFrequency || 'yearly'}
+                                  onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                >
+                                  <option value="monthly">{getTranslation('monthly', language)}</option>
+                                  <option value="quarterly">{getTranslation('quarterly', language)}</option>
+                                  <option value="yearly">{getTranslation('yearly', language)}</option>
+                                </select>
+                              </div>
+                            )}
+
+                            {asset.type === 'stock' && (
+                              <div>
+                                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
                                   Wachstumsmethode
                                 </label>
                                 <select
@@ -599,7 +648,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                             {asset.type === 'stock' && (asset.stockGrowthType || 'rate') === 'rate' && (
                               <div>
                                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                                  Jährliche Wachstumsrate (%)
+                                  Jährliche Wachstumsrate (% p.a.)
                                 </label>
                                 <input
                                   type="text"
@@ -810,7 +859,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
 
                       <div>
                         <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                          Zinssatz (%)
+                          Zinssatz (% p.a.)
                         </label>
                         <input
                           type="text"
@@ -1197,7 +1246,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
 
                           {investmentStockGrowthType === 'rate' && (
                             <div>
-                              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Jährliche Wachstumsrate (%)</label>
+                              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Jährliche Wachstumsrate (% p.a.)</label>
                               <input
                                 type="text"
                                 value={draftValues['investmentRate'] ?? (investmentRate !== undefined && investmentRate !== null ? investmentRate.toString().replace('.', ',') : '')}
@@ -1225,7 +1274,7 @@ export function SetupWizard({ onComplete, darkMode, currency, showBetaFeatures }
                                   <input
                                     type="checkbox"
                                     checked={false} // investmentUseEstimation is removed
-                                    onChange={(e) => {}} // No state update for this checkbox
+                                    onChange={() => { /* disabled in wizard */ }} // No state update for this checkbox
                                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                   />
                                   <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Zwischenwerte schätzen</span>

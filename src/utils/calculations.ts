@@ -1,5 +1,13 @@
 import { FinancialData, ProjectionResult, Asset } from '../types/financial';
 
+function addYearsToDate(date: Date, years: number): Date {
+  console.log('    addYearsToDate: Input date =', date, ', years =', years);
+  const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Average days in a year
+  const newDate = new Date(date.getTime() + years * millisecondsPerYear);
+  console.log('    addYearsToDate: Output newDate =', newDate);
+  return newDate;
+}
+
 // New helper function for projecting stock price per share
 function getProjectedStockPricePerShare(
   initialPricePerShare: number,
@@ -116,6 +124,22 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
   let currentIncome = [...data.income];
   let currentExpenses = [...data.expenses];
   
+  // Variables for distribution of savings and investments (per target frequency)
+  let accumulatedSavingsForBank = 0;
+  let accumulatedSavingsForInvestment = 0;
+  let lastBankDistributionYearFraction = 0;
+  let lastInvestmentDistributionYearFraction = 0;
+  
+  const mapFrequencyToYears = (freq?: Asset['distributionFrequency']): number => {
+    switch (freq) {
+      case 'monthly': return 1 / 12;
+      case 'quarterly': return 3 / 12;
+      case 'yearly':
+      default:
+        return 1;
+    }
+  };
+
   // Capture initial stock quantities and prices for projection base
   const initialStockQuantities = new Map<string, number>();
   const initialStockPricesPerShare = new Map<string, number>();
@@ -133,18 +157,26 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
   console.log('Initial Assets:', currentAssets);
   console.log('Initial Stock Quantities Map:', initialStockQuantities);
   console.log('Initial Stock Prices Per Share Map:', initialStockPricesPerShare);
-
-  // Generate quarterly data points (4 quarters per year)
-  const totalQuarters = years * 4 + 1; // +1 to include the starting point
+  const getBankAsset = (): Asset | undefined => currentAssets.find(a => a.id === 'permanent-bank-account');
+  const getInvestmentStockAsset = (): Asset | undefined =>
+    currentAssets.find(a => a.type === 'stock' && a.stockSymbol === data.investmentStockSymbol);
   
-  for (let quarter = 0; quarter < totalQuarters; quarter++) {
-    const yearFraction = quarter / 4; // Convert quarter to year fraction (0, 0.25, 0.5, 0.75, 1, etc.)
-    const currentProjectionDate = new Date(initialProjectionStartDate.getFullYear() + yearFraction, initialProjectionStartDate.getMonth(), initialProjectionStartDate.getDate());
+  const getBankIntervalYears = (): number => mapFrequencyToYears(getBankAsset()?.distributionFrequency);
+  const getInvestmentIntervalYears = (): number => mapFrequencyToYears(getInvestmentStockAsset()?.distributionFrequency);
+  
+  console.log('Bank distribution interval (years):', getBankIntervalYears());
+  console.log('Investment distribution interval (years):', getInvestmentIntervalYears());
 
+  const NUMBER_OF_DATA_POINTS = 100; // Number of data points for the graph
+  const stepYears = years / (NUMBER_OF_DATA_POINTS - 1); // Calculate year step for 100 data points
+
+  for (let i = 0; i < NUMBER_OF_DATA_POINTS; i++) {
+    const yearFraction = i * stepYears; // Calculate year fraction for each data point
+    console.log(`  projectNetWorth Loop ${i}: yearFraction = ${yearFraction}`);
+    const currentProjectionDate = addYearsToDate(initialProjectionStartDate, yearFraction);
+    console.log(`  projectNetWorth Loop ${i}: currentProjectionDate (after addYearsToDate) =`, currentProjectionDate);
+    
     // First, update values of all assets for the current projection date
-    // Note: We need to use a temporary array or modify currentAssets carefully to reflect changes
-    // for stocks within this quarter before calculating totals.
-    // Instead of re-mapping here, we'll directly update the values and quantities on the currentAssets objects.
     currentAssets.forEach(asset => {
       if (asset.type === 'stock') {
         const currentQuantity = mutableStockQuantities.get(asset.id) || 0;
@@ -180,6 +212,7 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
     
     results.push({
       year: yearFraction, // Use yearFraction for the result
+      date: currentProjectionDate, // Store the exact date
       totalAssets,
       totalLiabilities,
       netWorth: totalAssets - totalLiabilities,
@@ -188,7 +221,7 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
       monthlySavings
     });
     
-    console.log(`--- Quarter ${quarter} (Year Fraction: ${yearFraction}) ---`);
+    console.log(`--- Data Point ${i} (Year Fraction: ${yearFraction}) ---`);
     console.log('Current Projection Date:', currentProjectionDate);
     currentAssets.filter(a => a.type === 'stock').forEach(asset => {
       console.log(`  Asset ${asset.id} (${asset.name}): Value=${asset.value}, Quantity=${asset.quantity}, StockGrowthType=${asset.stockGrowthType}, UseEstimation=${asset.useEstimation}`);
@@ -196,70 +229,92 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
     console.log('Total Assets:', totalAssets);
     console.log('Monthly Savings:', monthlySavings);
 
-    if (quarter < totalQuarters - 1) { // Check for next quarter, not year
-      const nextQuarterFraction = (quarter + 1) / 4;
-      const nextProjectionDate = new Date(initialProjectionStartDate.getFullYear() + nextQuarterFraction, initialProjectionStartDate.getMonth(), initialProjectionStartDate.getDate());
+    // Apply monthly savings and investments for the next period
+    if (i < NUMBER_OF_DATA_POINTS - 1) {
+      const monthsInStep = stepYears * 12; // Use actual stepYears for continuous accumulation
+      // Accumulate monthly savings over the steps for both bank and investment paths
+      const stepSavings = monthlySavings * monthsInStep;
+      accumulatedSavingsForBank += stepSavings;
+      accumulatedSavingsForInvestment += stepSavings;
 
-      // Handle monthly income/expenses growth for the next quarter (if applicable)
-      // (this part can be more complex if income/expenses have growth rates over time,
-      // for now we assume they are static or handled outside this loop for growth)
-
-      const quarterlySavingsAmount = monthlySavings * 3; // 3 months per quarter
-
-      // Distribute quarterly savings into bank account first
-      let bankAccount = currentAssets.find(a => a.id === 'permanent-bank-account');
-      if (bankAccount) {
-        bankAccount.value += quarterlySavingsAmount;
-        console.log('Bank Account updated with quarterly savings:', bankAccount.value);
-      } else {
-        // Create if not exists, though it should be permanent from SetupWizard
-        const newBankAccount: Asset = {
-          id: 'permanent-bank-account',
-          name: 'Bankkonto',
-          value: quarterlySavingsAmount,
-          growthRate: 0,
-          type: 'cash'
-        };
-        currentAssets.push(newBankAccount);
-        bankAccount = newBankAccount; // Assign reference to the newly created object
+      // Determine if bank distribution should be triggered (based on bank's own frequency)
+      const bankIntervalYears = getBankIntervalYears();
+      const shouldDistributeBank = (yearFraction - lastBankDistributionYearFraction + stepYears) >= (bankIntervalYears - 0.0001) || (i === NUMBER_OF_DATA_POINTS - 2);
+      if (shouldDistributeBank) {
+        console.log(`  Applying bank savings. AccumulatedBank: ${accumulatedSavingsForBank} at yearFraction: ${yearFraction}`);
+        // Distribute savings into bank account
+        let bankAccount = getBankAsset();
+        if (bankAccount) {
+          bankAccount.value += accumulatedSavingsForBank;
+          console.log('Bank Account updated with savings:', bankAccount.value);
+        } else {
+          const newBankAccount: Asset = {
+            id: 'permanent-bank-account',
+            name: 'Bankkonto',
+            value: accumulatedSavingsForBank,
+            growthRate: 0,
+            type: 'cash'
+          };
+          currentAssets.push(newBankAccount);
+          bankAccount = newBankAccount;
+        }
+        accumulatedSavingsForBank = 0;
+        lastBankDistributionYearFraction = yearFraction;
       }
 
-      // Handle automatic investment if configured
-      if (data.investmentPercentage && data.investmentPercentage > 0 && data.investmentType === 'stock' && data.investmentStockSymbol) {
-        const investmentAmount = quarterlySavingsAmount * (data.investmentPercentage / 100);
-        let investmentStockAsset = currentAssets.find(a => a.type === 'stock' && a.stockSymbol === data.investmentStockSymbol);
+      // Determine if investment distribution should be triggered (based on investment stock's own frequency)
+      const investmentIntervalYears = getInvestmentIntervalYears();
+      const shouldDistributeInvestment = (yearFraction - lastInvestmentDistributionYearFraction + stepYears) >= (investmentIntervalYears - 0.0001) || (i === NUMBER_OF_DATA_POINTS - 2);
+      if (shouldDistributeInvestment) {
+        // Handle automatic investment if configured
+        if (data.investmentPercentage && data.investmentPercentage > 0 && data.investmentType === 'stock' && data.investmentStockSymbol) {
+          const investmentAmount = accumulatedSavingsForInvestment * (data.investmentPercentage / 100);
+          const investmentStockAsset = getInvestmentStockAsset();
+          let bankAccount = getBankAsset();
+          if (!bankAccount) {
+            const newBankAccount: Asset = {
+              id: 'permanent-bank-account',
+              name: 'Bankkonto',
+              value: 0,
+              growthRate: 0,
+              type: 'cash'
+            };
+            currentAssets.push(newBankAccount);
+            bankAccount = newBankAccount;
+          }
 
-        if (investmentStockAsset) {
-          // Get the current projected price per share for the investment stock at this projection date
-          const currentPricePerShare = getProjectedStockPricePerShare(
-            initialStockPricesPerShare.get(investmentStockAsset.id) || 0,
-            investmentStockAsset.stockTargets,
-            investmentStockAsset.useEstimation,
-            currentProjectionDate // Use the current projection date for getting the current price
-          );
+          if (investmentStockAsset) {
+            const currentPricePerShare = getProjectedStockPricePerShare(
+              initialStockPricesPerShare.get(investmentStockAsset.id) || 0,
+              investmentStockAsset.stockTargets,
+              investmentStockAsset.useEstimation,
+              currentProjectionDate
+            );
 
-          console.log(`  Investment Stock (${investmentStockAsset.stockSymbol}): Investment Amount=${investmentAmount}, Current Price Per Share=${currentPricePerShare}`);
+            console.log(`  Investment Stock (${investmentStockAsset.stockSymbol}): Investment Amount=${investmentAmount}, Current Price Per Share=${currentPricePerShare}`);
 
-          if (currentPricePerShare > 0) {
-            const newSharesBought = investmentAmount / currentPricePerShare; // Buy new shares at the current projected price per share
-            // Update mutable quantity map for the investment stock
-            mutableStockQuantities.set(investmentStockAsset.id, (mutableStockQuantities.get(investmentStockAsset.id) || 0) + newSharesBought);
-            // Deduct investment amount from bank account
-            if (bankAccount) {
-              bankAccount.value -= investmentAmount;
+            if (currentPricePerShare > 0 && investmentAmount > 0) {
+              const newSharesBought = investmentAmount / currentPricePerShare;
+              mutableStockQuantities.set(investmentStockAsset.id, (mutableStockQuantities.get(investmentStockAsset.id) || 0) + newSharesBought);
+              if (bankAccount) {
+                bankAccount.value -= investmentAmount; // move funds from bank
+              }
+              console.log(`  New Shares Bought: ${newSharesBought}, Updated Quantity: ${mutableStockQuantities.get(investmentStockAsset.id)}, Bank Account after investment: ${bankAccount?.value}`);
             }
-            console.log(`  New Shares Bought: ${newSharesBought}, Updated Quantity: ${mutableStockQuantities.get(investmentStockAsset.id)}, Bank Account after investment: ${bankAccount?.value}`);
           }
         }
+        accumulatedSavingsForInvestment = 0;
+        lastInvestmentDistributionYearFraction = yearFraction;
       }
-      // Update liabilities (e.g., reduce balance by payments, accrue interest)
+      // Update liabilities (e.g., reduce balance by payments, accrue interest) for the step period
       currentLiabilities = currentLiabilities.map(liability => {
         const updatedLiability = { ...liability };
-        const monthlyInterest = (updatedLiability.balance * updatedLiability.interestRate / 100) / 12;
-        const actualPayment = Math.min(updatedLiability.minimumPayment, updatedLiability.balance + monthlyInterest); // Don't overpay beyond balance + interest
-        updatedLiability.balance = updatedLiability.balance + (monthlyInterest * 3) - (actualPayment * 3); // Quarterly interest and payments
+        const totalInterest = updatedLiability.balance * (Math.pow(1 + updatedLiability.interestRate / 100, stepYears) - 1); // Apply annual compounding
+        const totalPayments = updatedLiability.minimumPayment * monthsInStep;
+        const actualPayment = Math.min(totalPayments, updatedLiability.balance + totalInterest); // Don't overpay
 
-        // Ensure balance doesn't go below zero
+        updatedLiability.balance = updatedLiability.balance + totalInterest - actualPayment;
+
         if (updatedLiability.balance < 0) {
           updatedLiability.balance = 0;
         }
