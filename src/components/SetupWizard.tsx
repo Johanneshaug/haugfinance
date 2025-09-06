@@ -686,7 +686,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                 
                                 <div className="mb-4">
                                   <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
-                                    Preisentwicklung zwischen Zieldaten
+                                    Preisentwicklung zwischen heute und Zieldaten
                                   </label>
                                   <select
                                     value={asset.stockPriceTrend || 'linear'}
