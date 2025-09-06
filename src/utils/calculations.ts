@@ -8,12 +8,45 @@ function addYearsToDate(date: Date, years: number): Date {
   return newDate;
 }
 
+// Helper function to calculate price based on trend type
+function calculatePriceWithTrend(
+  startPrice: number,
+  endPrice: number,
+  progress: number,
+  trendType: 'linear' | 'exponential' | 'logarithmic' | 'sine' = 'linear'
+): number {
+  switch (trendType) {
+    case 'linear':
+      return startPrice + (endPrice - startPrice) * progress;
+    
+    case 'exponential':
+      // Exponential growth: starts slow, accelerates
+      const expProgress = Math.pow(progress, 2);
+      return startPrice + (endPrice - startPrice) * expProgress;
+    
+    case 'logarithmic':
+      // Logarithmic growth: starts fast, slows down
+      const logProgress = Math.sqrt(progress);
+      return startPrice + (endPrice - startPrice) * logProgress;
+    
+    case 'sine':
+      // Sine wave: oscillates around the linear progression
+      const sineOffset = Math.sin(progress * Math.PI * 2) * 0.1; // 10% oscillation
+      const linearPrice = startPrice + (endPrice - startPrice) * progress;
+      return linearPrice + (endPrice - startPrice) * sineOffset;
+    
+    default:
+      return startPrice + (endPrice - startPrice) * progress;
+  }
+}
+
 // New helper function for projecting stock price per share
 function getProjectedStockPricePerShare(
   initialPricePerShare: number,
   stockTargets: Array<{ date: string; expectedPrice: number }> | undefined,
   useEstimation: boolean | undefined,
-  projectionDate: Date
+  projectionDate: Date,
+  stockPriceTrend: 'linear' | 'exponential' | 'logarithmic' | 'sine' = 'linear'
 ): number {
   console.log('  --- getProjectedStockPricePerShare ---');
   console.log('  Initial Price Per Share:', initialPricePerShare);
@@ -36,10 +69,20 @@ function getProjectedStockPricePerShare(
   const firstTarget = sortedTargets[0];
   const lastTarget = sortedTargets[sortedTargets.length - 1];
 
-  // If before the first target date
+  // If before the first target date - use trend from initial price to first target
   if (projectionDate < new Date(firstTarget.date)) {
-    console.log('  Case: Before first target, returning initialPricePerShare:', initialPricePerShare);
-    return initialPricePerShare;
+    if (useEstimation) {
+      const timeElapsed = projectionDate.getTime() - new Date().getTime();
+      const totalTime = new Date(firstTarget.date).getTime() - new Date().getTime();
+      if (totalTime <= 0) return initialPricePerShare;
+      const progress = Math.max(0, Math.min(1, timeElapsed / totalTime));
+      const calculatedPrice = calculatePriceWithTrend(initialPricePerShare, firstTarget.expectedPrice, progress, stockPriceTrend);
+      console.log('  Case: Before first target with estimation, returning:', calculatedPrice);
+      return calculatedPrice;
+    } else {
+      console.log('  Case: Before first target without estimation, returning initialPricePerShare:', initialPricePerShare);
+      return initialPricePerShare;
+    }
   }
 
   // If at or after the last target date
@@ -57,12 +100,12 @@ function getProjectedStockPricePerShare(
 
     if (projectionDate >= prevDate && projectionDate < nextDate) {
       if (useEstimation) {
-        // Linear interpolation
+        // Use trend-based interpolation
         const timeElapsed = projectionDate.getTime() - prevDate.getTime();
         const totalTime = nextDate.getTime() - prevDate.getTime();
         if (totalTime <= 0) return prevTarget.expectedPrice;
         const progress = timeElapsed / totalTime;
-        const calculatedPrice = prevTarget.expectedPrice + (nextTarget.expectedPrice - prevTarget.expectedPrice) * progress;
+        const calculatedPrice = calculatePriceWithTrend(prevTarget.expectedPrice, nextTarget.expectedPrice, progress, stockPriceTrend);
         console.log('  Case: Between targets with estimation, returning:', calculatedPrice);
         return calculatedPrice;
       } else {
@@ -89,7 +132,8 @@ function getProjectedAssetValueAtDate(
       initialPricePerShareForStock || 0,
       asset.stockTargets,
       asset.useEstimation,
-      projectionDate
+      projectionDate,
+      asset.stockPriceTrend || 'linear'
     );
     return pricePerShare * currentQuantity;
   } else {
@@ -288,7 +332,8 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
               initialStockPricesPerShare.get(investmentStockAsset.id) || 0,
               investmentStockAsset.stockTargets,
               investmentStockAsset.useEstimation,
-              currentProjectionDate
+              currentProjectionDate,
+              investmentStockAsset.stockPriceTrend || 'linear'
             );
 
             console.log(`  Investment Stock (${investmentStockAsset.stockSymbol}): Investment Amount=${investmentAmount}, Current Price Per Share=${currentPricePerShare}`);
