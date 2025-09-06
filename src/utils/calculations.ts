@@ -71,18 +71,13 @@ function getProjectedStockPricePerShare(
 
   // If before the first target date - use trend from initial price to first target
   if (projectionDate < new Date(firstTarget.date)) {
-    if (useEstimation) {
-      const timeElapsed = projectionDate.getTime() - new Date().getTime();
-      const totalTime = new Date(firstTarget.date).getTime() - new Date().getTime();
-      if (totalTime <= 0) return initialPricePerShare;
-      const progress = Math.max(0, Math.min(1, timeElapsed / totalTime));
-      const calculatedPrice = calculatePriceWithTrend(initialPricePerShare, firstTarget.expectedPrice, progress, stockPriceTrend);
-      console.log('  Case: Before first target with estimation, returning:', calculatedPrice);
-      return calculatedPrice;
-    } else {
-      console.log('  Case: Before first target without estimation, returning initialPricePerShare:', initialPricePerShare);
-      return initialPricePerShare;
-    }
+    const timeElapsed = projectionDate.getTime() - new Date().getTime();
+    const totalTime = new Date(firstTarget.date).getTime() - new Date().getTime();
+    if (totalTime <= 0) return initialPricePerShare;
+    const progress = Math.max(0, Math.min(1, timeElapsed / totalTime));
+    const calculatedPrice = calculatePriceWithTrend(initialPricePerShare, firstTarget.expectedPrice, progress, stockPriceTrend);
+    console.log('  Case: Before first target with trend calculation, returning:', calculatedPrice);
+    return calculatedPrice;
   }
 
   // If at or after the last target date
@@ -99,20 +94,14 @@ function getProjectedStockPricePerShare(
     const nextDate = new Date(nextTarget.date);
 
     if (projectionDate >= prevDate && projectionDate < nextDate) {
-      if (useEstimation) {
-        // Use trend-based interpolation
-        const timeElapsed = projectionDate.getTime() - prevDate.getTime();
-        const totalTime = nextDate.getTime() - prevDate.getTime();
-        if (totalTime <= 0) return prevTarget.expectedPrice;
-        const progress = timeElapsed / totalTime;
-        const calculatedPrice = calculatePriceWithTrend(prevTarget.expectedPrice, nextTarget.expectedPrice, progress, stockPriceTrend);
-        console.log('  Case: Between targets with estimation, returning:', calculatedPrice);
-        return calculatedPrice;
-      } else {
-        // Hold price at previous target's expected price
-        console.log('  Case: Between targets without estimation, returning prevTarget.expectedPrice:', prevTarget.expectedPrice);
-        return prevTarget.expectedPrice;
-      }
+      // Use trend-based interpolation between targets
+      const timeElapsed = projectionDate.getTime() - prevDate.getTime();
+      const totalTime = nextDate.getTime() - prevDate.getTime();
+      if (totalTime <= 0) return prevTarget.expectedPrice;
+      const progress = timeElapsed / totalTime;
+      const calculatedPrice = calculatePriceWithTrend(prevTarget.expectedPrice, nextTarget.expectedPrice, progress, stockPriceTrend);
+      console.log('  Case: Between targets with trend calculation, returning:', calculatedPrice);
+      return calculatedPrice;
     }
   }
   console.log('  Case: Fallback, should not be reached, returning initialPricePerShare:', initialPricePerShare);
