@@ -14,6 +14,33 @@ import { Line } from 'react-chartjs-2';
 import { ProjectionResult } from '../types/financial';
 import { getTranslation } from '../utils/languages';
 
+// Plugin für vertikale Linie beim Hovern
+const verticalLinePlugin = {
+  id: 'verticalLine',
+  afterDraw: (chart: any) => {
+    const { ctx, chartArea, scales } = chart;
+    const xScale = scales.x;
+    const yScale = scales.y;
+    
+    if (!chart.tooltip || !chart.tooltip._active || chart.tooltip._active.length === 0) {
+      return;
+    }
+    
+    const activePoint = chart.tooltip._active[0];
+    const x = activePoint.element.x;
+    
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x, chartArea.top);
+    ctx.lineTo(x, chartArea.bottom);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = chart.options.plugins?.verticalLine?.color || 'rgba(0, 0, 0, 0.1)';
+    ctx.setLineDash([5, 5]);
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,7 +49,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  verticalLinePlugin
 );
 
 interface ProjectionChartProps {
@@ -66,6 +94,10 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         tension: 0.4,
         borderWidth: 4,
         pointRadius: 0,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: darkMode ? 'rgb(99, 102, 241)' : 'rgb(79, 70, 229)',
+        pointHoverBorderColor: darkMode ? 'rgb(99, 102, 241)' : 'rgb(79, 70, 229)',
+        pointHoverBorderWidth: 3,
       },
       {
         label: getTranslation('totalAssets', language),
@@ -76,6 +108,10 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         tension: 0.4,
         borderWidth: 4,
         pointRadius: 0,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: darkMode ? 'rgb(34, 197, 94)' : 'rgb(22, 163, 74)',
+        pointHoverBorderColor: darkMode ? 'rgb(34, 197, 94)' : 'rgb(22, 163, 74)',
+        pointHoverBorderWidth: 3,
       },
       {
         label: getTranslation('totalLiabilities', language),
@@ -86,6 +122,10 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
         tension: 0.4,
         borderWidth: 4,
         pointRadius: 0,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: darkMode ? 'rgb(239, 68, 68)' : 'rgb(220, 38, 38)',
+        pointHoverBorderColor: darkMode ? 'rgb(239, 68, 68)' : 'rgb(220, 38, 38)',
+        pointHoverBorderWidth: 3,
       }
     ],
   };
@@ -93,6 +133,10 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index' as const,
+      intersect: false,
+    },
     plugins: {
       legend: {
         position: 'top' as const,
@@ -158,10 +202,13 @@ export function ProjectionChart({ projections, language, darkMode }: ProjectionC
           }
         }
       },
+      verticalLine: {
+        color: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+      },
     },
     hover: {
-      mode: 'nearest' as const,
-      intersect: true,
+      mode: 'index' as const,
+      intersect: false,
     },
     scales: {
       x: {
