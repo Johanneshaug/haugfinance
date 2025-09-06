@@ -232,7 +232,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
     setAssets([...assets, newAsset]);
   };
 
-  const updateAsset = (id: string, field: keyof Asset, value: any) => {
+  const updateAsset = (id: string, field: string, value: any) => {
     setAssets(assets.map(asset => {
       if (asset.id === id) {
         const updatedAsset = { ...asset, [field]: value };
@@ -612,7 +612,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               </div>
                             )}
 
-                            {asset.type === 'stock' && (
+                            {asset.type === 'stock' && (asset.stockGrowthType || 'rate') === 'rate' && (
                               <div>
                                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
                                   {getTranslation('distributionFrequency', language)}
@@ -683,6 +683,22 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     </label>
                                   </div>
                                 )}
+                                
+                                <div className="mb-4">
+                                  <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                                    Preisentwicklung zwischen Zieldaten
+                                  </label>
+                                  <select
+                                    value={asset.stockPriceTrend || 'linear'}
+                                    onChange={(e) => updateAsset(asset.id, 'stockPriceTrend', e.target.value)}
+                                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  >
+                                    <option value="linear">Linear (gleichmäßig steigend/fallend)</option>
+                                    <option value="exponential">Exponentiell (beschleunigend)</option>
+                                    <option value="logarithmic">Logarithmisch (verlangsamend)</option>
+                                    <option value="sine">Sinusförmig (wellenförmig)</option>
+                                  </select>
+                                </div>
                                 <div className="flex items-center justify-between mb-3">
                                   <label className={`text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                     Zielpreise

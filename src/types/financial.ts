@@ -10,6 +10,7 @@ export interface Asset {
   stockTargets?: Array<{ date: string; expectedPrice: number }>; // Target dates with expected values
   useEstimation?: boolean; // Add this line
   distributionFrequency?: DistributionFrequency; // Added this line for per-asset setting
+  stockPriceTrend?: 'linear' | 'exponential' | 'logarithmic' | 'sine'; // Price development between target dates
 }
 
 export interface Liability {
