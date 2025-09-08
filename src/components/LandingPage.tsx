@@ -75,6 +75,72 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
         </div>
       </div>
 
+      {/* Mission Section */}
+      <div className={`${darkMode ? 'bg-slate-800/20' : 'bg-white/30'} backdrop-blur-xl py-20 border-y ${darkMode ? 'border-slate-700/30' : 'border-slate-200/30'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <div className={`inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-6 py-3 rounded-full border ${darkMode ? 'border-blue-400/20' : 'border-blue-400/10'} mb-8`}>
+              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <span className={`text-sm font-semibold ${darkMode ? 'text-blue-300' : 'text-blue-600'}`}>
+                Unsere Mission
+              </span>
+            </div>
+            
+            <h2 className={`text-4xl md:text-5xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-8 leading-tight tracking-tight`}>
+              Menschen bei ihren finanziellen Zielen helfen
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
+                und ihnen die Reise dahin Spaß machen
+              </span>
+            </h2>
+            
+            <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-slate-600'} max-w-4xl mx-auto leading-relaxed font-medium`}>
+              Finanzplanung muss nicht kompliziert oder langweilig sein. Wir glauben daran, dass jeder Mensch 
+              das Recht auf eine klare, verständliche und motivierende Finanzplanung hat. Unsere Mission ist es, 
+              Ihnen dabei zu helfen, Ihre finanziellen Träume zu verwirklichen – und dabei Spaß zu haben.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+              <div className="text-center group">
+                <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-4xl">🎯</span>
+                </div>
+                <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
+                  Klare Ziele
+                </h3>
+                <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed`}>
+                  Definieren Sie Ihre finanziellen Ziele und sehen Sie, wie Sie diese erreichen können.
+                </p>
+              </div>
+              
+              <div className="text-center group">
+                <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-4xl">🚀</span>
+                </div>
+                <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
+                  Motivation
+                </h3>
+                <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed`}>
+                  Erleben Sie die Freude am Sparen und Investieren mit visuellen Fortschritten.
+                </p>
+              </div>
+              
+              <div className="text-center group">
+                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-4xl">💡</span>
+                </div>
+                <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
+                  Verständlichkeit
+                </h3>
+                <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed`}>
+                  Komplexe Finanzkonzepte einfach und verständlich erklärt.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Features Section */}
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
