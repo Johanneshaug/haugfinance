@@ -404,8 +404,8 @@ function App() {
   return (
     <div className={`min-h-screen transition-all duration-700 ${
       darkMode 
-        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900' 
-        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'
+        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-amber-900' 
+        : 'bg-gradient-to-br from-white via-blue-50 to-amber-50'
     }`} style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 ${darkMode ? 'bg-slate-900/95 border-slate-700/50' : 'bg-white/95 border-slate-200/50'} backdrop-blur-xl shadow-2xl border-b transition-all duration-700`}>
@@ -413,7 +413,7 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className={`p-2 rounded-xl ${darkMode ? 'bg-blue-500/20 border border-blue-400/30' : 'bg-blue-500/10 border border-blue-400/20'} backdrop-blur-sm`}>
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-amber-500 rounded-lg flex items-center justify-center">
                   <span className="text-lg font-bold text-white">H</span>
                 </div>
               </div>

@@ -268,7 +268,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
             type="date"
             value={target.date}
             onChange={(e) => onUpdateStockTarget(index, 'date', e.target.value)}
-            className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-blue-500`}
+            className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-orange-500`}
           />
         </div>
         <div className="flex-1">
@@ -278,7 +278,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
               value={localExpectedPrice}
               onChange={handlePriceChange}
               onBlur={handlePriceBlur}
-              className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-blue-500`}
+              className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-orange-500`}
               placeholder="0,00"
             />
             <span className={`absolute right-2 top-1 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -317,7 +317,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                 <select
                   value={editedItem.type || 'stock'}
                   onChange={(e) => setEditedItem({ ...editedItem, type: e.target.value })}
-                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                 >
                   <option value="cash">{getTranslation('cash', language)}</option>
                   <option value="investment">{getTranslation('investment', language)}</option>
@@ -335,7 +335,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                   type="text"
                   value={editedItem.name || ''}
                   onChange={(e) => setEditedItem({ ...editedItem, name: e.target.value })}
-                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                   placeholder={getTranslation('placeholderSavingsAccount', language)}
                 />
               </div>
@@ -352,7 +352,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                     type="text"
                     value={editedItem.stockSymbol || ''}
                     onChange={(e) => handleStockSymbolChange(e.target.value)}
-                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                     placeholder="z.B. AAPL"
                   />
                   {showSuggestions && stockSuggestions.length > 0 && (
@@ -388,7 +388,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                     setEditedItem({ ...editedItem, quantity: isNaN(parsed) ? 0 : parsed });
                     setLocalQuantity((isNaN(parsed) ? 0 : parsed).toString().replace('.', ','));
                   }}
-                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                   placeholder="100,0"
                 />
               </div>
@@ -410,7 +410,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                       setEditedItem({ ...editedItem, value: isNaN(parsed) ? 0 : parsed });
                       setLocalValue((isNaN(parsed) ? 0 : parsed).toString().replace('.', ','));
                     }}
-                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                     placeholder="0,00"
                   />
                   <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -445,7 +445,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                   <select
                     value={stockGrowthType || 'rate'} // Use local state for growth type
                     onChange={(e) => setStockGrowthType(e.target.value as 'rate' | 'targets')}
-                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                   >
                     <option value="rate">Jährliche Wachstumsrate</option>
                     <option value="targets">Zielpreise zu bestimmten Daten</option>
@@ -467,7 +467,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                         setEditedItem({ ...editedItem, growthRate: isNaN(parsed) ? 0 : parsed });
                         setLocalGrowthRate((isNaN(parsed) ? 0 : parsed).toString().replace('.', ','));
                       }}
-                      className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                       placeholder="7,0"
                     />
                   </div>
@@ -481,7 +481,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                           type="checkbox"
                           checked={editedItem.useEstimation || false}
                           onChange={(e) => setEditedItem({ ...editedItem, useEstimation: e.target.checked })}
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-gray-300 text-blue-600 focus:ring-orange-500"
                         />
                         <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                           Preise zwischen jetzt und Zieldaten schätzen
@@ -534,7 +534,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                 <select
                   value={localDistributionFrequency}
                   onChange={(e) => setLocalDistributionFrequency(e.target.value as DistributionFrequency)}
-                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                 >
                   <option value="monthly">{getTranslation('monthly', language)}</option>
                   <option value="quarterly">{getTranslation('quarterly', language)}</option>
@@ -670,7 +670,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                   type="checkbox"
                   checked={editedItem.hasDateRange || false}
                   onChange={(e) => setEditedItem({ ...editedItem, hasDateRange: e.target.checked })}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-blue-600 focus:ring-orange-500"
                 />
                 <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Zeitraum festlegen
@@ -688,7 +688,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                     type="date"
                     value={editedItem.startDate || ''}
                     onChange={(e) => setEditedItem({ ...editedItem, startDate: e.target.value })}
-                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                   />
                 </div>
                 <div>
@@ -699,7 +699,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                     type="date"
                     value={editedItem.endDate || ''}
                     onChange={(e) => setEditedItem({ ...editedItem, endDate: e.target.value })}
-                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                   />
                 </div>
               </div>

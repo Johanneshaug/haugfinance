@@ -349,12 +349,12 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className={`text-2xl font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'} tracking-tight`}>
+              <h3 className={`text-2xl font-bold ${darkMode ? 'text-orange-300' : 'text-orange-700'} tracking-tight`}>
                 💼 Vermögenswerte
               </h3>
               <button
                 onClick={addAsset}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
+                className="flex items-center space-x-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-xl hover:bg-orange-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
               >
                 <Plus className="w-4 h-4" />
                 <div className="flex flex-col leading-tight text-left">
@@ -365,7 +365,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
             </div>
             
             {assets.length === 0 ? (
-              <div className={`text-center py-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className={`text-center py-8 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                 <p className="text-lg font-medium">Keine Vermögenswerte hinzugefügt</p>
               </div>
             ) : (
@@ -395,7 +395,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                             type="text"
                             value={asset.name}
                             onChange={(e) => updateAsset(asset.id, 'name', e.target.value)}
-                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="z.B. Sparkasse"
                           />
                         </div>
@@ -414,7 +414,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                 updateAsset(asset.id, 'value', isNaN(n) ? 0 : n);
                               }}
                               onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:value`]: _, ...rest } = prev; return rest; })}
-                              className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                              className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                               placeholder="0,00"
                             />
                             <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -434,7 +434,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               updateAsset(asset.id, 'growthRate', isNaN(n) ? 0 : n);
                             }}
                             onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:growthRate`]: _, ...rest } = prev; return rest; })}
-                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="1,5"
                           />
                         </div>
@@ -446,7 +446,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                         <select
                           value={asset.distributionFrequency || 'yearly'}
                           onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
-                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                         >
                           <option value="monthly">{getTranslation('monthly', language)}</option>
                           <option value="quarterly">{getTranslation('quarterly', language)}</option>
@@ -463,7 +463,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           <select
                             value={asset.type}
                             onChange={(e) => updateAsset(asset.id, 'type', e.target.value)}
-                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           >
                             <option value="cash">Bargeld</option>
                             <option value="investment">Investition</option>
@@ -480,7 +480,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               type="text"
                               value={asset.name}
                               onChange={(e) => updateAsset(asset.id, 'name', e.target.value)}
-                              className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                              className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                               placeholder="z.B. Sparkonto"
                             />
                           </div>
@@ -503,7 +503,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     updateAsset(asset.id, 'value', isNaN(n) ? 0 : n);
                                   }}
                                   onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:value`]: _, ...rest } = prev; return rest; })}
-                                  className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   placeholder="0,00"
                                 />
                                 <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -525,7 +525,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     updateAsset(asset.id, 'growthRate', isNaN(n) ? 0 : n);
                                   }}
                                   onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:growthRate`]: _, ...rest } = prev; return rest; })}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   placeholder="5,0"
                                 />
                               </div>
@@ -537,7 +537,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                  <select
                                    value={asset.distributionFrequency || 'yearly'} // Default to yearly if not set
                                    onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
-                                   className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                   className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                  >
                                    <option value="monthly">{getTranslation('monthly', language)}</option>
                                    <option value="quarterly">{getTranslation('quarterly', language)}</option>
@@ -558,7 +558,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                   type="text"
                                   value={asset.stockSymbol || ''}
                                   onChange={(e) => handleStockSymbolChange(asset.id, e.target.value)}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   placeholder="z.B. AAPL, TSLA"
                                 />
                                 {showSuggestions[asset.id] && stockSuggestions.length > 0 && (
@@ -606,7 +606,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     updateAsset(asset.id, 'quantity', s === '' ? 0 : (isNaN(n) ? 0 : n));
                                   }}
                                   onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:quantity`]: _, ...rest } = prev; return rest; })}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   placeholder="100,0"
                                 />
                               </div>
@@ -620,7 +620,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                 <select
                                   value={asset.distributionFrequency || 'yearly'}
                                   onChange={(e) => updateAsset(asset.id, 'distributionFrequency', e.target.value as DistributionFrequency)}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                 >
                                   <option value="monthly">{getTranslation('monthly', language)}</option>
                                   <option value="quarterly">{getTranslation('quarterly', language)}</option>
@@ -637,7 +637,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                 <select
                                   value={asset.stockGrowthType || 'rate'}
                                   onChange={(e) => updateAsset(asset.id, 'stockGrowthType', e.target.value)}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                 >
                                   <option value="rate">Jährliche Wachstumsrate</option>
                                   <option value="targets">Zielpreise zu bestimmten Daten</option>
@@ -660,7 +660,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     updateAsset(asset.id, 'growthRate', isNaN(n) ? 0 : n);
                                   }}
                                   onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:growthRate`]: _, ...rest } = prev; return rest; })}
-                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                  className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   placeholder="10,0"
                                 />
                               </div>
@@ -675,7 +675,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                         type="checkbox"
                                         checked={asset.useEstimation || false}
                                         onChange={(e) => updateAsset(asset.id, 'useEstimation', e.target.checked)}
-                                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
                                       />
                                       <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                         Preise zwischen jetzt und Zieldaten schätzen
@@ -691,7 +691,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                   <select
                                     value={asset.stockPriceTrend || 'linear'}
                                     onChange={(e) => updateAsset(asset.id, 'stockPriceTrend', e.target.value)}
-                                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                                    className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                                   >
                                     <option value="linear">Linear (gleichmäßig steigend/fallend)</option>
                                     <option value="exponential">Exponentiell (beschleunigend)</option>
@@ -709,7 +709,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                       const newTargets = [...(asset.stockTargets || []), { date: '', expectedPrice: 0 }];
                                       updateAsset(asset.id, 'stockTargets', newTargets);
                                     }}
-                                    className="flex items-center space-x-1 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
+                                    className="flex items-center space-x-1 px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm"
                                   >
                                     <Plus className="w-4 h-4" />
                                     <span>Hinzufügen</span>
@@ -727,7 +727,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                             newTargets[index] = { ...newTargets[index], date: e.target.value };
                                             updateAsset(asset.id, 'stockTargets', newTargets);
                                           }}
-                                          className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-blue-500`}
+                                          className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-orange-500`}
                                         />
                                       </div>
                                       <div className="flex-1">
@@ -744,7 +744,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                               updateAsset(asset.id, 'stockTargets', newTargets);
                                             }}
                                             onBlur={() => setDraftValues(prev => { const { [`asset:${asset.id}:stockTarget:${index}:expectedPrice`]: _, ...rest } = prev; return rest; })}
-                                            className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-blue-500`}
+                                            className={`w-full px-2 py-1 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded focus:ring-1 focus:ring-orange-500`}
                                             placeholder="0,00"
                                           />
                                           <span className={`absolute right-2 top-1 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -785,12 +785,12 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className={`text-2xl font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'} tracking-tight`}>
+              <h3 className={`text-2xl font-bold ${darkMode ? 'text-orange-300' : 'text-orange-700'} tracking-tight`}>
                 💳 Schulden
               </h3>
               <button
                 onClick={addLiability}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
+                className="flex items-center space-x-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-xl hover:bg-orange-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
               >
                 <Plus className="w-4 h-4" />
                 <span>Hinzufügen</span>
@@ -798,7 +798,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
             </div>
             
             {liabilities.length === 0 ? (
-              <div className={`text-center py-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className={`text-center py-8 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                 <p className="text-lg font-medium">Keine Schulden hinzugefügt</p>
               </div>
             ) : (
@@ -824,7 +824,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           type="text"
                           value={liability.name}
                           onChange={(e) => updateLiability(liability.id, 'name', e.target.value)}
-                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           placeholder="z.B. Studienkredit"
                         />
                       </div>
@@ -844,7 +844,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               updateLiability(liability.id, 'balance', isNaN(n) ? 0 : n);
                             }}
                             onBlur={() => setDraftValues(prev => { const { [`liability:${liability.id}:balance`]: _, ...rest } = prev; return rest; })}
-                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="0,00"
                           />
                           <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -866,7 +866,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               updateLiability(liability.id, 'minimumPayment', isNaN(n) ? 0 : n);
                             }}
                             onBlur={() => setDraftValues(prev => { const { [`liability:${liability.id}:minimumPayment`]: _, ...rest } = prev; return rest; })}
-                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="0,00"
                           />
                           <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -887,7 +887,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                             updateLiability(liability.id, 'interestRate', isNaN(n) ? 0 : n);
                           }}
                           onBlur={() => setDraftValues(prev => { const { [`liability:${liability.id}:interestRate`]: _, ...rest } = prev; return rest; })}
-                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           placeholder="5,5"
                         />
                       </div>
@@ -903,12 +903,12 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className={`text-2xl font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'} tracking-tight`}>
+              <h3 className={`text-2xl font-bold ${darkMode ? 'text-orange-300' : 'text-orange-700'} tracking-tight`}>
                 💰 Einkommen
               </h3>
               <button
                 onClick={addIncome}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
+                className="flex items-center space-x-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-xl hover:bg-orange-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
               >
                 <Plus className="w-4 h-4" />
                 <span>Hinzufügen</span>
@@ -916,7 +916,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
             </div>
             
             {income.length === 0 ? (
-              <div className={`text-center py-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className={`text-center py-8 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                 <p className="text-lg font-medium">Kein Einkommen hinzugefügt</p>
               </div>
             ) : (
@@ -942,7 +942,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           type="text"
                           value={incomeItem.source}
                           onChange={(e) => updateIncome(incomeItem.id, 'source', e.target.value)}
-                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           placeholder="z.B. Gehalt"
                         />
                       </div>
@@ -962,7 +962,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               updateIncome(incomeItem.id, 'monthlyAmount', isNaN(n) ? 0 : n);
                             }}
                             onBlur={() => setDraftValues(prev => { const { [`income:${incomeItem.id}:monthlyAmount`]: _, ...rest } = prev; return rest; })}
-                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="0,00"
                           />
                           <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -977,7 +977,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           type="checkbox"
                           checked={incomeItem.hasDateRange || false}
                           onChange={(e) => updateIncome(incomeItem.id, 'hasDateRange', e.target.checked)}
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
                         />
                         <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                           Zeitraum festlegen
@@ -995,7 +995,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                             type="date"
                             value={incomeItem.startDate || ''}
                             onChange={(e) => updateIncome(incomeItem.id, 'startDate', e.target.value)}
-                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           />
                         </div>
                         <div>
@@ -1006,7 +1006,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                             type="date"
                             value={incomeItem.endDate || ''}
                             onChange={(e) => updateIncome(incomeItem.id, 'endDate', e.target.value)}
-                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           />
                         </div>
                       </div>
@@ -1022,12 +1022,12 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className={`text-2xl font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'} tracking-tight`}>
+              <h3 className={`text-2xl font-bold ${darkMode ? 'text-orange-300' : 'text-orange-700'} tracking-tight`}>
                 🛒 Ausgaben
               </h3>
               <button
                 onClick={addExpense}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
+                className="flex items-center space-x-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-xl hover:bg-orange-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105"
               >
                 <Plus className="w-4 h-4" />
                 <span>Hinzufügen</span>
@@ -1035,7 +1035,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
             </div>
             
             {expenses.length === 0 ? (
-              <div className={`text-center py-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className={`text-center py-8 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                 <p className="text-lg font-medium">Keine Ausgaben hinzugefügt</p>
               </div>
             ) : (
@@ -1061,7 +1061,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           type="text"
                           value={expense.category}
                           onChange={(e) => updateExpense(expense.id, 'category', e.target.value)}
-                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-3 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                           placeholder="z.B. Lebenshaltungskosten"
                         />
                       </div>
@@ -1081,7 +1081,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               updateExpense(expense.id, 'monthlyAmount', isNaN(n) ? 0 : n);
                             }}
                             onBlur={() => setDraftValues(prev => { const { [`expense:${expense.id}:monthlyAmount`]: _, ...rest } = prev; return rest; })}
-                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            className={`w-full px-4 py-3 pr-12 border ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white'} rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                             placeholder="0,00"
                           />
                           <span className={`absolute right-4 top-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>€</span>
@@ -1101,11 +1101,11 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
 
         return (
           <div className="space-y-6">
-            <div className={`mt-6 p-6 rounded-xl border ${monthlyNet > 0 ? (darkMode ? 'border-blue-600/50 bg-blue-700/20' : 'border-blue-200/50 bg-blue-50/50') : (darkMode ? 'border-slate-600/50 bg-slate-700/50' : 'border-slate-200/50 bg-slate-50/50')} backdrop-blur-sm`}>
+            <div className={`mt-6 p-6 rounded-xl border ${monthlyNet > 0 ? (darkMode ? 'border-orange-600/50 bg-orange-700/20' : 'border-orange-200/50 bg-orange-50/50') : (darkMode ? 'border-slate-600/50 bg-slate-700/50' : 'border-slate-200/50 bg-slate-50/50')} backdrop-blur-sm`}>
               <div 
                 className="flex items-center justify-between mb-4 group"
               >
-                <h3 className={`text-base font-bold ${monthlyNet > 0 ? (darkMode ? 'text-blue-300' : 'text-blue-700') : (darkMode ? 'text-slate-400' : 'text-slate-600')} tracking-tight`}>
+                <h3 className={`text-base font-bold ${monthlyNet > 0 ? (darkMode ? 'text-orange-300' : 'text-orange-700') : (darkMode ? 'text-slate-400' : 'text-slate-600')} tracking-tight`}>
                   💰 Automatische Anlage
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -1132,7 +1132,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                         setInvestmentPercentage(clamped);
                       }}
                       onBlur={() => setDraftValues(prev => { const { ['investmentPercentage']: _, ...rest } = prev; return rest; })}
-                      className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center`}
+                      className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-center`}
                       placeholder="0,0"
                     />
                     <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>%</span>
@@ -1149,7 +1149,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           onClick={() => setInvestmentType('rate')}
                           className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors ${
                             investmentType === 'rate'
-                              ? 'bg-blue-500 text-white'
+                              ? 'bg-orange-500 text-white'
                               : darkMode ? 'bg-gray-600 text-gray-300 hover:bg-gray-500' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                           }`}
                         >
@@ -1160,7 +1160,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                           onClick={() => setInvestmentType('stock')}
                           className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors ${
                             investmentType === 'stock'
-                              ? 'bg-blue-500 text-white'
+                              ? 'bg-orange-500 text-white'
                               : darkMode ? 'bg-gray-600 text-gray-300 hover:bg-gray-500' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                           }`}
                         >
@@ -1186,7 +1186,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                             setInvestmentRate(isNaN(n) ? 0 : n);
                           }}
                           onBlur={() => setDraftValues(prev => { const { ['investmentRate']: _, ...rest } = prev; return rest; })}
-                          className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center`}
+                          className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-center`}
                           placeholder="z.B. 7,0"
                         />
                         <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>%</span>
@@ -1216,7 +1216,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                   setShowInvestmentSuggestions(false);
                                 }
                               }}
-                              className={`w-full px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                              className={`w-full px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                               placeholder="z.B. AAPL, MSFT, TSLA"
                             />
                             {showInvestmentSuggestions && investmentStockSuggestions.length > 0 && (
@@ -1291,7 +1291,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                                     type="checkbox"
                                     checked={false} // investmentUseEstimation is removed
                                     onChange={() => { /* disabled in wizard */ }} // No state update for this checkbox
-                                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
                                   />
                                   <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Zwischenwerte schätzen</span>
                                 </label>
@@ -1304,7 +1304,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                               <button
                                 type="button"
                                 onClick={() => setInvestmentStockTargets([...(investmentStockTargets || []), { date: '', expectedPrice: 0 }])}
-                                className="flex items-center space-x-1 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
+                                className="flex items-center space-x-1 px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm"
                               >
                                 <Plus className="w-4 h-4" />
                                 <span>Hinzufügen</span>
@@ -1379,8 +1379,8 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
   return (
     <div className={`min-h-screen transition-all duration-700 ${
       darkMode 
-        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900' 
-        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'
+        ? 'bg-gradient-to-br from-slate-900 via-orange-900 to-black' 
+        : 'bg-gradient-to-br from-white via-orange-50 to-slate-50'
     }`} style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
       
       {/* Header */}
@@ -1388,8 +1388,8 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         <div className="max-w-4xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className={`p-2 rounded-xl ${darkMode ? 'bg-blue-500/20 border border-blue-400/30' : 'bg-blue-500/10 border border-blue-400/20'} backdrop-blur-sm`}>
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <div className={`p-2 rounded-xl ${darkMode ? 'bg-orange-500/20 border border-orange-400/30' : 'bg-orange-500/10 border border-orange-400/20'} backdrop-blur-sm`}>
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
                   <span className="text-lg font-bold text-white">H</span>
                 </div>
               </div>
@@ -1397,7 +1397,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                 <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} tracking-tight`}>
                   Setup Wizard
                 </h1>
-                <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'} font-medium`}>
+                <p className={`text-sm ${darkMode ? 'text-orange-400' : 'text-orange-600'} font-medium`}>
                   Schritt {currentStep + 1} von {steps.length}
                 </p>
               </div>
@@ -1415,7 +1415,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                 <div key={index} className="flex items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                     index <= currentStep 
-                      ? 'bg-blue-500 text-white' 
+                      ? 'bg-orange-500 text-white' 
                       : darkMode ? 'bg-gray-600 text-gray-400' : 'bg-gray-200 text-gray-500'
                   }`}>
                     {index + 1}
@@ -1423,7 +1423,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
                   {index < steps.length - 1 && (
                     <div className={`w-16 h-1 mx-4 ${
                       index < currentStep 
-                        ? 'bg-blue-500' 
+                        ? 'bg-orange-500' 
                         : darkMode ? 'bg-gray-600' : 'bg-gray-200'
                     }`} />
                   )}
@@ -1463,7 +1463,7 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
 
           <button
             onClick={nextStep}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             <span>{currentStep === steps.length - 1 ? 'Fertigstellen' : 'Weiter'}</span>
             <ArrowRight className="w-5 h-5" />

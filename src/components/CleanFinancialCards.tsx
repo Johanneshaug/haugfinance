@@ -90,7 +90,7 @@ export default function CleanFinancialCards({
     permanentBankAccount, // Always first
     ...data.assets.filter(item => item.id !== 'permanent-bank-account').map(item => ({ ...item, itemType: 'asset' as const, colorClass: 'text-emerald-600' })),
     ...data.liabilities.map(item => ({ ...item, itemType: 'liability' as const, colorClass: 'text-red-600' })),
-    ...data.income.map(item => ({ ...item, itemType: 'income' as const, colorClass: 'text-blue-600' })),
+    ...data.income.map(item => ({ ...item, itemType: 'income' as const, colorClass: 'text-orange-600' })),
     ...data.expenses.map(item => ({ ...item, itemType: 'expense' as const, colorClass: 'text-orange-600' }))
   ];
 
@@ -304,7 +304,7 @@ export default function CleanFinancialCards({
                       type="checkbox"
                       checked={asset.useEstimation || false}
                       onChange={(e) => updateAssetInline(asset.id, { useEstimation: e.target.checked })}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
                     />
                     <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Preise zwischen jetzt und Zieldaten schätzen</span>
                   </label>
@@ -318,7 +318,7 @@ export default function CleanFinancialCards({
                     const newTargets = [...(asset.stockTargets || []), { date: '', expectedPrice: 0 }];
                     onUpdateAssetStockTarget(asset.id, newTargets);
                   }}
-                  className="px-2 py-1 text-[11px] bg-blue-500 text-white rounded"
+                  className="px-2 py-1 text-[11px] bg-orange-500 text-white rounded"
                 >
                   + Hinzufügen
                 </button>
@@ -458,7 +458,7 @@ export default function CleanFinancialCards({
             </button>
             <button
               onClick={() => onAddItem('income')}
-              className={`px-4 py-2 text-xs bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105`}
+              className={`px-4 py-2 text-xs bg-orange-100 text-orange-700 rounded-xl hover:bg-orange-200 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105`}
             >
               + {getTranslation('addIncome', language)}
             </button>
@@ -491,12 +491,12 @@ export default function CleanFinancialCards({
         )}
         
         {/* Investment Percentage Section */}
-        <div className={`mt-6 p-6 rounded-xl border ${monthlyNet > 0 ? (darkMode ? 'border-blue-600/50 bg-blue-700/20' : 'border-blue-200/50 bg-blue-50/50') : (darkMode ? 'border-slate-600/50 bg-slate-700/50' : 'border-slate-200/50 bg-slate-50/50')} backdrop-blur-sm`}>
+        <div className={`mt-6 p-6 rounded-xl border ${monthlyNet > 0 ? (darkMode ? 'border-orange-600/50 bg-orange-700/20' : 'border-orange-200/50 bg-orange-50/50') : (darkMode ? 'border-slate-600/50 bg-slate-700/50' : 'border-slate-200/50 bg-slate-50/50')} backdrop-blur-sm`}>
           <div 
             className="flex items-center justify-between mb-4 cursor-pointer group"
             onClick={() => setIsInvestmentExpanded(!isInvestmentExpanded)}
           >
-            <h3 className={`text-base font-bold ${monthlyNet > 0 ? (darkMode ? 'text-blue-300' : 'text-blue-700') : (darkMode ? 'text-slate-400' : 'text-slate-600')} tracking-tight`}>
+            <h3 className={`text-base font-bold ${monthlyNet > 0 ? (darkMode ? 'text-orange-300' : 'text-orange-700') : (darkMode ? 'text-slate-400' : 'text-slate-600')} tracking-tight`}>
               💰 Automatische Anlage
             </h3>
             <div className="flex items-center space-x-2">
@@ -530,7 +530,7 @@ export default function CleanFinancialCards({
                     onUpdateInvestmentPercentage(clamped);
                     setLocalInvestmentPercentage(clamped.toString().replace('.', ','));
                   }}
-                  className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center`}
+                  className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-center`}
                   placeholder="0,0"
                 />
                 <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>%</span>
@@ -547,7 +547,7 @@ export default function CleanFinancialCards({
                       onClick={() => onUpdateInvestmentType('rate')}
                       className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors ${
                         data.investmentType === 'rate'
-                          ? 'bg-blue-500 text-white'
+                          ? 'bg-orange-500 text-white'
                           : darkMode ? 'bg-gray-600 text-gray-300 hover:bg-gray-500' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                     >
@@ -558,7 +558,7 @@ export default function CleanFinancialCards({
                       onClick={() => onUpdateInvestmentType('stock')}
                       className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors ${
                         data.investmentType === 'stock'
-                          ? 'bg-blue-500 text-white'
+                          ? 'bg-orange-500 text-white'
                           : darkMode ? 'bg-gray-600 text-gray-300 hover:bg-gray-500' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                     >
@@ -584,7 +584,7 @@ export default function CleanFinancialCards({
                         onUpdateInvestmentRate(isNaN(n) ? 0 : n);
                         setLocalInvestmentRate((isNaN(n) ? 0 : n).toString().replace('.', ','));
                       }}
-                      className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center`}
+                      className={`w-20 px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-center`}
                       placeholder="z.B. 7,0"
                     />
                     <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>%</span>
@@ -602,7 +602,7 @@ export default function CleanFinancialCards({
                         type="text"
                         value={data.investmentStockSymbol || ''}
                         onChange={(e) => handleStockSymbolChange(e.target.value)}
-                        className={`w-full px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                        className={`w-full px-3 py-2 text-sm border ${darkMode ? 'border-gray-500 bg-gray-600 text-white' : 'border-gray-300 bg-white'} rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                         placeholder="z.B. AAPL, MSFT, TSLA"
                       />
                       {showSuggestions && stockSuggestions.length > 0 && (

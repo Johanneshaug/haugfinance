@@ -10,8 +10,8 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
   return (
     <div className={`min-h-screen transition-all duration-700 ${
       darkMode 
-        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900' 
-        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'
+        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-amber-900' 
+        : 'bg-gradient-to-br from-white via-blue-50 to-amber-50'
     }`} style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
       
       {/* Hero Section */}
@@ -19,7 +19,7 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, ${darkMode ? '#3B82F6' : '#6366F1'} 0%, transparent 50%), radial-gradient(circle at 75% 75%, ${darkMode ? '#8B5CF6' : '#8B5CF6'} 0%, transparent 50%)`
+            backgroundImage: `radial-gradient(circle at 25% 25%, ${darkMode ? '#3B82F6' : '#2563EB'} 0%, transparent 50%), radial-gradient(circle at 75% 75%, ${darkMode ? '#F59E0B' : '#D97706'} 0%, transparent 50%)`
           }}></div>
         </div>
         
@@ -29,7 +29,7 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
             <div className="mb-8">
               <div className="flex justify-center mb-6">
                 <div className={`p-4 rounded-2xl ${darkMode ? 'bg-blue-500/20 border border-blue-400/30' : 'bg-blue-500/10 border border-blue-400/20'} backdrop-blur-sm`}>
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-amber-500 rounded-xl flex items-center justify-center">
                     <span className="text-2xl font-bold text-white">H</span>
                   </div>
                 </div>
@@ -39,8 +39,8 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
               </h1>
               <div className="flex justify-center space-x-3 mb-8">
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse delay-100"></div>
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse delay-200"></div>
+                <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse delay-100"></div>
+                <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse delay-200"></div>
               </div>
             </div>
 
@@ -48,7 +48,7 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
             <h2 className={`text-4xl md:text-6xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-8 leading-tight tracking-tight`}>
               Ihre finanzielle Zukunft
               <br />
-              <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-500 via-amber-500 to-orange-500 bg-clip-text text-transparent">
                 präzise geplant
               </span>
             </h2>
@@ -62,9 +62,9 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
             {/* CTA Button */}
             <button
               onClick={onEnterApp}
-              className="group relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-12 py-6 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-4 mx-auto overflow-hidden"
+              className="group relative bg-gradient-to-r from-blue-600 via-amber-600 to-orange-600 text-white px-12 py-6 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-4 mx-auto overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-amber-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative flex items-center space-x-4">
               <Calculator className="w-7 h-7" />
               <span>Vermögensrechner starten</span>
@@ -79,30 +79,26 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
       <div className={`${darkMode ? 'bg-slate-800/20' : 'bg-white/30'} backdrop-blur-xl py-20 border-y ${darkMode ? 'border-slate-700/30' : 'border-slate-200/30'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center">
-            <div className={`inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-6 py-3 rounded-full border ${darkMode ? 'border-blue-400/20' : 'border-blue-400/10'} mb-8`}>
-              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+            <div className={`inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500/10 to-amber-500/10 px-6 py-3 rounded-full border ${darkMode ? 'border-blue-400/20' : 'border-blue-400/10'} mb-8`}>
+              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-amber-500 rounded-full"></div>
               <span className={`text-sm font-semibold ${darkMode ? 'text-blue-300' : 'text-blue-600'}`}>
                 Unsere Mission
               </span>
             </div>
             
             <h2 className={`text-4xl md:text-5xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-8 leading-tight tracking-tight`}>
-              Menschen bei ihren finanziellen Zielen helfen
-              <br />
-              <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
-                und ihnen die Reise dahin Spaß machen
+              <span className="bg-gradient-to-r from-blue-500 via-amber-500 to-orange-500 bg-clip-text text-transparent">
+                Ein Programm für finanzielle Ziele
               </span>
             </h2>
             
             <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-slate-600'} max-w-4xl mx-auto leading-relaxed font-medium`}>
-              Finanzplanung muss nicht kompliziert oder langweilig sein. Wir glauben daran, dass jeder Mensch 
-              das Recht auf eine klare, verständliche und motivierende Finanzplanung hat. Unsere Mission ist es, 
-              Ihnen dabei zu helfen, Ihre finanziellen Träume zu verwirklichen – und dabei Spaß zu haben.
+              Mission: Ein Programm entwickeln, mit dem Menschen finanzielle Ziele erreichen können.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
               <div className="text-center group">
-                <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
                   <span className="text-4xl">🎯</span>
                 </div>
                 <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
@@ -114,7 +110,7 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
               </div>
               
               <div className="text-center group">
-                <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
                   <span className="text-4xl">🚀</span>
                 </div>
                 <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
@@ -126,7 +122,7 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
               </div>
               
               <div className="text-center group">
-                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 p-6 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
                   <span className="text-4xl">💡</span>
                 </div>
                 <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3`}>
@@ -145,109 +141,52 @@ export function LandingPage({ onEnterApp, darkMode }: LandingPageProps) {
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
           <h3 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-6 tracking-tight`}>
-            Professionelle Finanzplanung
+            Ihre Finanzen im Überblick
           </h3>
-          <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-slate-600'} max-w-2xl mx-auto font-medium`}>
-            Modernste Tools für Ihre finanzielle Zukunft
-          </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
           <div className={`${darkMode ? 'bg-slate-800/60 border-slate-700/50' : 'bg-white/80 border-slate-200/50'} backdrop-blur-xl rounded-3xl p-8 border shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 group`}>
-            <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
               <TrendingUp className="w-8 h-8 text-white" />
             </div>
             <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-4 tracking-tight`}>
-              Präzise Projektionen
+              Zukunft berechnen
             </h3>
             <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed text-lg`}>
-              Berechnen Sie Ihr zukünftiges Nettovermögen basierend auf Ihren aktuellen 
-              Vermögenswerten, Schulden und Cashflow-Prognosen.
+              Sehen Sie, wie sich Ihr Vermögen entwickelt.
             </p>
           </div>
 
           {/* Feature 2 */}
           <div className={`${darkMode ? 'bg-slate-800/60 border-slate-700/50' : 'bg-white/80 border-slate-200/50'} backdrop-blur-xl rounded-3xl p-8 border shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 group`}>
-            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
               <PieChart className="w-8 h-8 text-white" />
             </div>
             <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-4 tracking-tight`}>
-              Vollständige Übersicht
+              Alles an einem Ort
             </h3>
             <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed text-lg`}>
-              Verwalten Sie alle Ihre Vermögenswerte, Schulden, Einkommen und Ausgaben 
-              an einem zentralen Ort mit intuitivem Design.
+              Vermögen, Schulden, Einkommen und Ausgaben verwalten.
             </p>
           </div>
 
           {/* Feature 3 */}
           <div className={`${darkMode ? 'bg-slate-800/60 border-slate-700/50' : 'bg-white/80 border-slate-200/50'} backdrop-blur-xl rounded-3xl p-8 border shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 group`}>
-            <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
               <BarChart3 className="w-8 h-8 text-white" />
             </div>
             <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-4 tracking-tight`}>
-              Interaktive Charts
+              Schöne Charts
             </h3>
             <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed text-lg`}>
-              Visualisieren Sie Ihre finanzielle Entwicklung mit detaillierten, 
-              interaktiven Diagrammen über mehrere Jahre hinweg.
+              Ihre Finanzen als interaktive Diagramme.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Benefits Section */}
-      <div className={`${darkMode ? 'bg-slate-800/30' : 'bg-white/40'} backdrop-blur-xl py-24 border-y ${darkMode ? 'border-slate-700/50' : 'border-slate-200/50'}`}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h3 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-6 tracking-tight`}>
-              Warum HaugFinance?
-            </h3>
-            <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-slate-600'} max-w-2xl mx-auto font-medium`}>
-              Die moderne Lösung für Ihre Finanzplanung
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-4 rounded-full w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
-              <h4 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3 tracking-tight`}>
-                100% Privat
-              </h4>
-              <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} text-lg leading-relaxed`}>
-                Alle Daten bleiben lokal in Ihrem Browser. Keine Übertragung an externe Server.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4 rounded-full w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Zap className="w-8 h-8 text-white" />
-              </div>
-              <h4 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3 tracking-tight`}>
-                Blitzschnell
-              </h4>
-              <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} text-lg leading-relaxed`}>
-                Sofortige Berechnungen und Aktualisierungen in Echtzeit ohne Wartezeiten.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-4 rounded-full w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Globe className="w-8 h-8 text-white" />
-              </div>
-              <h4 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-3 tracking-tight`}>
-                Multi-Währung
-              </h4>
-              <p className={`${darkMode ? 'text-slate-300' : 'text-slate-600'} text-lg leading-relaxed`}>
-                Unterstützung für alle wichtigen Währungen mit aktuellen Wechselkursen.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Footer */}
       <div className="max-w-7xl mx-auto px-6 py-16">

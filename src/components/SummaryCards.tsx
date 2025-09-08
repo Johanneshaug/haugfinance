@@ -61,8 +61,8 @@ export function SummaryCards({ data, projections, projectionYears, currency, lan
       title: language === 'de' ? 'Vermögenswerte' : 'Assets',
       value: `${visibleAssets.length}`,
       icon: Briefcase,
-      color: 'text-blue-600',
-      bgColor: darkMode ? 'bg-blue-900/20' : 'bg-blue-50',
+      color: 'text-orange-600',
+      bgColor: darkMode ? 'bg-orange-900/20' : 'bg-orange-50',
       description: assetsDescription,
       isCount: true
     },
