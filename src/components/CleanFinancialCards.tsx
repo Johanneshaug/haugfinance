@@ -4,6 +4,7 @@ import { FinancialData, Asset, Liability, Income, Expense, DistributionFrequency
 import { formatCurrency } from '../utils/currencies';
 import { getTranslation } from '../utils/languages';
 import { searchStockSymbols, getStockNameBySymbol } from '../utils/stockApi';
+import { calculateMonthlyNet } from '../utils/calculations';
 
 interface CleanFinancialCardsProps {
   data: FinancialData;
@@ -404,6 +405,7 @@ export default function CleanFinancialCards({
             >
               <option value="monthly">{getTranslation('monthly', language)}</option>
               <option value="quarterly">{getTranslation('quarterly', language)}</option>
+              <option value="semiannual">{getTranslation('semiannual', language)}</option>
               <option value="yearly">{getTranslation('yearly', language)}</option>
             </select>
           </div>
@@ -413,9 +415,7 @@ export default function CleanFinancialCards({
     );
   };
 
-  const monthlyNet = data.income.reduce((sum, income) => sum + income.monthlyAmount, 0) - 
-                    data.expenses.reduce((sum, expense) => sum + expense.monthlyAmount, 0) - 
-                    data.liabilities.reduce((sum, liability) => sum + liability.minimumPayment + ((liability.balance * liability.interestRate / 100) / 12), 0);
+  const monthlyNet = calculateMonthlyNet(data);
 
   const handleStockSymbolChange = (value: string) => {
     onUpdateInvestmentStock(value.toUpperCase());

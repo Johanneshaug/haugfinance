@@ -114,7 +114,8 @@ function getProjectedAssetValueAtDate(
   projectionDate: Date,
   initialProjectionStartDate: Date,
   currentQuantity: number, // Pass current quantity for stocks
-  initialPricePerShareForStock: number | undefined // Pass initial price for stocks
+  initialPricePerShareForStock: number | undefined, // Pass initial price for stocks
+  originalAssetValue?: number // Pass original asset value to prevent double compounding
 ): number {
   if (asset.type === 'stock') {
     const pricePerShare = getProjectedStockPricePerShare(
@@ -128,7 +129,10 @@ function getProjectedAssetValueAtDate(
   } else {
     // For non-stock assets, calculate value based on annual growth rate from initial projection start
     const yearsFromInitialStart = (projectionDate.getTime() - initialProjectionStartDate.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
-    return asset.value * Math.pow(1 + (asset.growthRate || 0) / 100, yearsFromInitialStart);
+    // Apply annual compound interest correctly using original value to prevent double compounding
+    const annualGrowthRate = (asset.growthRate || 0) / 100;
+    const baseValue = originalAssetValue !== undefined ? originalAssetValue : asset.value;
+    return baseValue * Math.pow(1 + annualGrowthRate, yearsFromInitialStart);
   }
 }
 
@@ -167,6 +171,7 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
     switch (freq) {
       case 'monthly': return 1 / 12;
       case 'quarterly': return 3 / 12;
+      case 'semiannual': return 6 / 12;
       case 'yearly':
       default:
         return 1;
@@ -176,11 +181,14 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
   // Capture initial stock quantities and prices for projection base
   const initialStockQuantities = new Map<string, number>();
   const initialStockPricesPerShare = new Map<string, number>();
+  const initialAssetValues = new Map<string, number>(); // Store original asset values
   currentAssets.forEach(asset => {
     if (asset.type === 'stock') {
       initialStockQuantities.set(asset.id, asset.quantity || 0);
       initialStockPricesPerShare.set(asset.id, (asset.value && asset.quantity) ? (asset.value / asset.quantity) : 0);
     }
+    // Store original value for all assets to prevent double compounding
+    initialAssetValues.set(asset.id, asset.value);
   });
   // Use a mutable map for current quantities, so we can update it for new investments
   const mutableStockQuantities = new Map<string, number>(initialStockQuantities);
@@ -218,7 +226,8 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
           currentProjectionDate,
           initialProjectionStartDate,
           currentQuantity, // Pass the mutable current quantity
-          initialStockPricesPerShare.get(asset.id) // Initial price per share for this stock
+          initialStockPricesPerShare.get(asset.id), // Initial price per share for this stock
+          initialAssetValues.get(asset.id) // Pass original asset value
         );
         asset.value = newStockValue;
         asset.quantity = currentQuantity; // Ensure asset object's quantity reflects the mutable map
@@ -228,7 +237,8 @@ export function projectNetWorth(data: FinancialData, years: number, language: st
           currentProjectionDate,
           initialProjectionStartDate,
           0, // Not applicable for non-stocks
-          undefined // Not applicable for non-stocks
+          undefined, // Not applicable for non-stocks
+          initialAssetValues.get(asset.id) // Pass original asset value to prevent double compounding
         );
         asset.value = newNonStockValue;
       }

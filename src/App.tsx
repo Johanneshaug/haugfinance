@@ -472,6 +472,7 @@ function App() {
         {/* Chart */}
         <div className="mb-10">
           <ProjectionChart projections={projections} language={selectedLanguage} darkMode={darkMode} />
+          
         </div>
 
         {/* Input Forms */}
@@ -532,6 +533,7 @@ function App() {
         language={selectedLanguage}
         darkMode={darkMode}
       />
+
     </div>
   );
 }

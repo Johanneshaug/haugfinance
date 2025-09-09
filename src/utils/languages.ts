@@ -87,6 +87,7 @@ export interface Translations {
   distributionFrequency: string; // New translation key
   monthly: string; // New translation key
   quarterly: string; // New translation key
+  semiannual: string; // New translation key
   yearly: string; // New translation key
   
   // Projection
@@ -185,6 +186,7 @@ export const translations: Record<string, Translations> = {
     distributionFrequency: 'Distribution Frequency',
     monthly: 'Monthly',
     quarterly: 'Quarterly',
+    semiannual: 'Semiannual',
     yearly: 'Yearly',
     
     // Projection
@@ -282,6 +284,7 @@ export const translations: Record<string, Translations> = {
     distributionFrequency: 'Ausschüttungshäufigkeit',
     monthly: 'Monatlich',
     quarterly: 'Quartalsweise',
+    semiannual: 'Halbjährlich',
     yearly: 'Jährlich',
     
     // Projection

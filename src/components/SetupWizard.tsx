@@ -1097,7 +1097,10 @@ export function SetupWizard({ onComplete, darkMode, currency, language, showBeta
         );
 
       case 4: // Automatic Investment
-        const monthlyNet = income.reduce((sum, item) => sum + item.monthlyAmount, 0) - expenses.reduce((sum, item) => sum + item.monthlyAmount, 0);
+        const monthlyNet = income.reduce((sum, item) => sum + item.monthlyAmount, 0) - 
+                          expenses.reduce((sum, item) => sum + item.monthlyAmount, 0) -
+                          liabilities.reduce((sum, liability) => sum + liability.minimumPayment, 0) -
+                          liabilities.reduce((sum, liability) => sum + ((liability.balance * liability.interestRate / 100) / 12), 0);
 
         return (
           <div className="space-y-6">

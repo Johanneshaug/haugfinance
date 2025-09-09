@@ -39,7 +39,7 @@ export interface Expense {
   growthRate: number; // Annual percentage (inflation)
 }
 
-export type DistributionFrequency = 'monthly' | 'quarterly' | 'yearly';
+export type DistributionFrequency = 'monthly' | 'quarterly' | 'semiannual' | 'yearly';
 
 export interface FinancialData {
   assets: Asset[];

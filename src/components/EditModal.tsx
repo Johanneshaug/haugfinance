@@ -538,6 +538,7 @@ export function EditModal({ isOpen, onClose, item, type, onSave, currency, langu
                 >
                   <option value="monthly">{getTranslation('monthly', language)}</option>
                   <option value="quarterly">{getTranslation('quarterly', language)}</option>
+                  <option value="semiannual">{getTranslation('semiannual', language)}</option>
                   <option value="yearly">{getTranslation('yearly', language)}</option>
                 </select>
               </div>
